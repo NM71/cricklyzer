@@ -3,14 +3,14 @@
 Trying to build an all in one app for cricketers
 
 ## Features
-Splash Screen
-Welcome Screen
-SignIn with Google
-Home Screen
-Cric Score
-Calculate Pace
-Statistics
-Learning Hub
+- Splash Screen
+- Welcome Screen
+- SignIn with Google
+- Home Screen
+- Cric Score
+- Calculate Pace
+- Statistics
+- Learning Hub
 
 ## Screenshots
 
