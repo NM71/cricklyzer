@@ -1,0 +1,90 @@
+{
+  "project_info": {
+    "project_number": "376064786660",
+    "project_id": "cricklyzer-app",
+    "storage_bucket": "cricklyzer-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:376064786660:android:efed78e1c26993ab85ecf1",
+        "android_client_info": {
+          "package_name": "com.example.pacemeters"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "376064786660-upfqjfgkqbunscmb7eumseehk94spf3m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOfZZa2WR3mmlHjOUWKGaefiLmj5iDgoQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "376064786660-upfqjfgkqbunscmb7eumseehk94spf3m.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "376064786660-86pskefr50jk18a7k78q2j60vu6soou0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.pacemeters"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:376064786660:android:fd6090d924b6e0fd85ecf1",
+        "android_client_info": {
+          "package_name": "com.nosh.cricklyzer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "376064786660-8j6k3li9flbjcjcfga8od4eg55hifk3c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nosh.cricklyzer",
+            "certificate_hash": "6735b4888b0a4f60b39327a32f06ea8364a925ef"
+          }
+        },
+        {
+          "client_id": "376064786660-upfqjfgkqbunscmb7eumseehk94spf3m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOfZZa2WR3mmlHjOUWKGaefiLmj5iDgoQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "376064786660-upfqjfgkqbunscmb7eumseehk94spf3m.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "376064786660-86pskefr50jk18a7k78q2j60vu6soou0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.pacemeters"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
