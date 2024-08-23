@@ -10,6 +10,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      backgroundColor: Color(0xffffffff),
       elevation: 0,
       titleSpacing: 0,
       title: Row(
@@ -24,7 +25,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           const Text(
             textAlign: TextAlign.center,
             'Cricklyzer',
-            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 26),
           ),
         ],
       ),

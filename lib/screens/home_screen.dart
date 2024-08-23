@@ -1,5 +1,6 @@
 import 'package:cricklyzer/Screens/calculate_pace.dart';
 import 'package:cricklyzer/widgets/appbar.dart';
+import 'package:cricklyzer/widgets/custom_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cricklyzer/widgets/bottom_navigation_bar.dart';
@@ -27,6 +28,9 @@ class HomeScreen extends StatelessWidget {
       body: Stack(
         children: [
             Container(
+              decoration: BoxDecoration(
+                color: Color(0xffffffff),
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -46,7 +50,7 @@ class HomeScreen extends StatelessWidget {
                   CarouselSlider.builder(
                     itemCount: imageUrls.length,
                     options: CarouselOptions(
-                      height: 230,
+                      height: MediaQuery.sizeOf(context).height*0.3,
                       autoPlay: true,
                       autoPlayInterval: const Duration(seconds: 3),
                       autoPlayAnimationDuration:
@@ -84,17 +88,7 @@ class HomeScreen extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 10),
-                        ElevatedButton(
-                          style: ButtonStyle(
-                              foregroundColor:
-                                  WidgetStateProperty.all<Color>(Colors.white),
-                              backgroundColor:
-                                  WidgetStateProperty.all<Color>(Colors.red),
-                              shape: WidgetStateProperty.all<
-                                      RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(25.0)))),
+                        CustomButton(
                           onPressed: () {
                             Navigator.push(
                               context,
@@ -103,10 +97,7 @@ class HomeScreen extends StatelessWidget {
                               ),
                             );
                           },
-                          child: Text(
-                            'Calculate Pace',
-                            style: TextStyle(fontSize: 14),
-                          ),
+                          text: 'Calculate Pace',
                         ),
                       ],
                     ),

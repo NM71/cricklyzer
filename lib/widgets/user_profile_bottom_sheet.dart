@@ -31,11 +31,11 @@ class UserProfileBottomSheet extends StatelessWidget {
           Text(user?.displayName ?? "Guest User",
               style: TextStyle(
                 fontSize: 18,
-                color: Colors.white,
+                color: Colors.black,
                 fontWeight: FontWeight.bold,
               )),
           const SizedBox(height: 20),
-          Center(child: Text('Made with ❤️ by Nousher Murtaza')),
+          Center(child: Text('Made with ❤️ for cricketers')),
           const SizedBox(height: 20),
           ElevatedButton(
             style: ButtonStyle(

@@ -41,11 +41,12 @@ class _CalculatePaceState extends State<CalculatePace> {
 
     _chewieController = ChewieController(
       videoPlayerController: _controller,
-      aspectRatio: 30 / 30,
+      aspectRatio: 1,
       autoInitialize: true,
       looping: true,
       allowFullScreen: true,
       showControls: false,
+
     );
   }
 
@@ -55,7 +56,6 @@ class _CalculatePaceState extends State<CalculatePace> {
     _chewieController.dispose();
     super.dispose();
   }
-
 
   Future<void> _calculatePaceAndShowDialog(
       Duration releasePoint, Duration impactPoint) async {
@@ -77,6 +77,9 @@ class _CalculatePaceState extends State<CalculatePace> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
+            backgroundColor: Colors.black,
+            titleTextStyle: TextStyle(color: Colors.white, fontFamily: 'Symthe', fontSize: 25),
+            contentTextStyle: TextStyle(color: Colors.white, fontFamily: 'Symthe'),
             title: const Text('Ball Pace'),
             content: Text(
                 'The pace of the ball is ${paceInKilometersPerHour.toStringAsFixed(1)} KPH.'),
@@ -97,6 +100,9 @@ class _CalculatePaceState extends State<CalculatePace> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
+            backgroundColor: Colors.black,
+            titleTextStyle: TextStyle(color: Colors.white, fontFamily: 'Symthe', fontSize: 25),
+            contentTextStyle: TextStyle(color: Colors.white, fontFamily: 'Symthe'),
             title: const Text('Error'),
             content: const Text(
                 'Invalid release and impact points. Please try again.'),
@@ -145,14 +151,17 @@ class _CalculatePaceState extends State<CalculatePace> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          backgroundColor: Colors.black,
+          titleTextStyle: TextStyle(color: Colors.white, fontFamily: 'Symthe', fontSize: 25),
+          contentTextStyle: TextStyle(color: Colors.white, fontFamily: 'Symthe'),
           title: Text(title),
-          content: Text('Time: $currentTime'),
+          content: Text('Time: $currentTime', style: TextStyle(fontSize: 25),),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text('OK'),
+              child: const Text('OK', style: TextStyle(color: Colors.white),),
             ),
           ],
         );
@@ -167,6 +176,9 @@ class _CalculatePaceState extends State<CalculatePace> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          backgroundColor: Colors.black,
+          titleTextStyle: TextStyle(color: Colors.white, fontFamily: 'Symthe', fontSize: 25),
+          contentTextStyle: TextStyle(color: Colors.white, fontFamily: 'Symthe'),
           title: const Text('Set Pitch Size'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -186,13 +198,13 @@ class _CalculatePaceState extends State<CalculatePace> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text('Cancel'),
+              child: const Text('Cancel', style: TextStyle(color: Colors.white),),
             ),
             TextButton(
               onPressed: () {
                 Navigator.pop(context, pitchSizeController.text);
               },
-              child: const Text('Set'),
+              child: const Text('Set', style: TextStyle(color: Colors.white),),
             ),
           ],
         );
@@ -248,6 +260,7 @@ class _CalculatePaceState extends State<CalculatePace> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
+        leading: null,
         iconTheme: const IconThemeData(
           color: Colors.white,
         ),
@@ -267,7 +280,7 @@ class _CalculatePaceState extends State<CalculatePace> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(
-                    Icons.photo,
+                    Icons.video_call_outlined,
                     color: Colors.white,
                     size: 25,
                   ),
@@ -297,7 +310,7 @@ class _CalculatePaceState extends State<CalculatePace> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(
-                    Icons.settings,
+                    Icons.settings_outlined,
                     color: Colors.white,
                     size: 25,
                   ),

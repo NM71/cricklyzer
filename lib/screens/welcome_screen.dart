@@ -3,7 +3,7 @@ import 'package:cricklyzer/widgets/custom_buttons.dart';
 import 'package:cricklyzer/services/signin_screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
-  const WelcomeScreen({Key? key}) : super(key: key);
+  const WelcomeScreen({super.key});
 
   @override
   State<WelcomeScreen> createState() => _WelcomeScreenState();

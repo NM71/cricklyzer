@@ -1,7 +1,7 @@
+import 'package:cricklyzer/screens/cric_score.dart';
 import 'package:flutter/material.dart';
 import 'package:cricklyzer/Screens/learning_hub.dart';
 import 'package:cricklyzer/Screens/home_screen.dart';
-import 'package:cricklyzer/Screens/cric_score.dart';
 import 'package:cricklyzer/Screens/statistics_screen.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
@@ -15,23 +15,23 @@ class CustomBottomNavigationBar extends StatelessWidget {
       elevation: 0,
       destinations: const [
         NavigationDestination(
-          icon: Icon(Icons.home_outlined, color: Colors.red,),
-          selectedIcon: Icon(Icons.home, color: Colors.red,),
+          icon: Icon(Icons.home_outlined, color: Color(0xffe01312), size: 26,),
+          selectedIcon: Icon(Icons.home, color: Color(0xffe01312), size: 26,),
           label: 'Home',
         ),
         NavigationDestination(
-          icon: Icon(Icons.scoreboard_outlined, color: Colors.red),
-          selectedIcon: Icon(Icons.scoreboard, color: Colors.red),
+          icon: Icon(Icons.scoreboard_outlined, color: Color(0xffe01312), size: 26,),
+          selectedIcon: Icon(Icons.scoreboard, color: Color(0xffe01312), size: 26,),
           label: 'CricScore',
         ),
         NavigationDestination(
-          icon: Icon(Icons.bar_chart_outlined,color: Colors.red),
-          selectedIcon: Icon(Icons.bar_chart,color: Colors.red),
+          icon: Icon(Icons.bar_chart_outlined,color: Color(0xffe01312), size: 26,),
+          selectedIcon: Icon(Icons.bar_chart,color: Color(0xffe01312), size: 26,),
           label: 'Stats',
         ),
         NavigationDestination(
-          icon: Icon(Icons.sports_cricket_outlined,color: Colors.red),
-          selectedIcon: Icon(Icons.sports_cricket,color: Colors.red),
+          icon: Icon(Icons.sports_cricket_outlined,color: Color(0xffe01312), size: 26,),
+          selectedIcon: Icon(Icons.sports_cricket,color: Color(0xffe01312), size: 26,),
           label: 'Learn Hub'
         ),
       ],

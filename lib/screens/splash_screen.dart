@@ -125,7 +125,6 @@ class _SplashScreenState extends State<SplashScreen> {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       _isFirstTime = prefs.getBool('first_time') ?? true;
 
-      // If it's the user's first time, update the value to false
       if (_isFirstTime) {
         await prefs.setBool('first_time', false);
       }
