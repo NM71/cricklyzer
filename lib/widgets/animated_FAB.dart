@@ -44,8 +44,8 @@ class _FloatingActionAnimationState extends State<FloatingActionAnimation>
           child: FloatingActionButton(
             backgroundColor: Color(0xffffffff),
             shape: RoundedRectangleBorder(
-              side: BorderSide(color: Color(0xffe01312)),
-              borderRadius: BorderRadius.circular(12),
+              side: BorderSide(color: Color(0xff000000)),
+              borderRadius: BorderRadius.circular(10),
             ),
             onPressed: () {
               Navigator.push(
@@ -56,7 +56,7 @@ class _FloatingActionAnimationState extends State<FloatingActionAnimation>
             child: Padding(
               padding: const EdgeInsets.all(4.0),
               child: Image.asset(
-                'assets/images/throw.png',
+                'assets/images/Cricklyzer-logo-2-black.png',
                 height: 50,
                 width: 50,
               ),

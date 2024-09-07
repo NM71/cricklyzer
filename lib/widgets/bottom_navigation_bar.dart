@@ -13,7 +13,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
       backgroundColor: Colors.white,
-      selectedItemColor: const Color(0xffe01312),
+      selectedItemColor: const Color(0xffcf2e2e),
       unselectedItemColor: Colors.grey,
       currentIndex: selectedIndex,
       items: const [
@@ -118,23 +118,23 @@ class CustomBottomNavigationBar extends StatelessWidget {
 //       elevation: 0,
 //       destinations: const [
 //         NavigationDestination(
-//           icon: Icon(Icons.home_outlined, color: Color(0xffe01312), size: 24,),
-//           selectedIcon: Icon(Icons.home, color: Color(0xffe01312), size: 24,),
+//           icon: Icon(Icons.home_outlined, color: Color(0xffcf2e2e), size: 24,),
+//           selectedIcon: Icon(Icons.home, color: Color(0xffcf2e2e), size: 24,),
 //           label: 'Home',
 //         ),
 //         NavigationDestination(
-//           icon: Icon(Icons.local_convenience_store_outlined, color: Color(0xffe01312), size: 24,),
-//           selectedIcon: Icon(Icons.scoreboard, color: Color(0xffe01312), size: 24,),
+//           icon: Icon(Icons.local_convenience_store_outlined, color: Color(0xffcf2e2e), size: 24,),
+//           selectedIcon: Icon(Icons.scoreboard, color: Color(0xffcf2e2e), size: 24,),
 //           label: 'Coverage',
 //         ),
 //         NavigationDestination(
-//           icon: Icon(Icons.insert_chart_outlined,color: Color(0xffe01312), size: 24,),
-//           selectedIcon: Icon(Icons.insert_chart,color: Color(0xffe01312), size: 24,),
+//           icon: Icon(Icons.insert_chart_outlined,color: Color(0xffcf2e2e), size: 24,),
+//           selectedIcon: Icon(Icons.insert_chart,color: Color(0xffcf2e2e), size: 24,),
 //           label: 'Stats',
 //         ),
 //         NavigationDestination(
-//           icon: Icon(Icons.sports_cricket_outlined,color: Color(0xffe01312), size: 25,),
-//           selectedIcon: Icon(Icons.sports_cricket,color: Color(0xffe01312), size: 25,),
+//           icon: Icon(Icons.sports_cricket_outlined,color: Color(0xffcf2e2e), size: 25,),
+//           selectedIcon: Icon(Icons.sports_cricket,color: Color(0xffcf2e2e), size: 25,),
 //           label: 'Learn Hub'
 //         ),
 //       ],
@@ -213,8 +213,8 @@ class CustomBottomNavigationBar extends StatelessWidget {
 //       onDestinationSelected: (index) => _onItemTapped(context, index),
 //       destinations: _destinations
 //           .map((dest) => NavigationDestination(
-//         icon: Icon(dest.$1, color: const Color(0xFFE01312), size: 24),
-//         selectedIcon: Icon(dest.$2, color: const Color(0xFFE01312), size: 24),
+//         icon: Icon(dest.$1, color: const Color(0xffcf2e2e), size: 24),
+//         selectedIcon: Icon(dest.$2, color: const Color(0xffcf2e2e), size: 24),
 //         label: dest.$3,
 //       ))
 //           .toList(),

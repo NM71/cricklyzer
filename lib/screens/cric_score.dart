@@ -240,7 +240,7 @@ class _CricScoreState extends State<CricScore> with SingleTickerProviderStateMix
         future: _categorizedMatches,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator(color: Color(0xffe01312),));
+            return const Center(child: CircularProgressIndicator(color: Color(0xffcf2e2e),));
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {

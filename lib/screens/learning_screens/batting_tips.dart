@@ -11,21 +11,29 @@ class BattingTips extends StatelessWidget {
         title: Text('Improve Your Batting'),
         centerTitle: true,
       ),
-      drawer: buildDrawer(context),
+      // drawer: buildDrawer(context),
       body: ListView(
         padding: EdgeInsets.all(16),
         children: [
           Text(
-            'Improve Your Batting in Cricket',
+            'How to Improve Your Batting in Cricket',
             style: TextStyle(
-              fontSize: 22,
+              fontSize: 24,
               fontWeight: FontWeight.bold,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(height: 15),
+          Text(
+            'Batting is one of the central aspects of the sport of cricket. It may look simple, but becoming a competent batsman requires lots of hard work. Take some time to really dial in your stance, grip, and swing, along with other basic cues.',
+            style: TextStyle(
+              fontSize: 12,
             ),
             textAlign: TextAlign.center,
           ),
           SizedBox(height: 16),
           buildTipSection(
-            title: '1. Getting into Position',
+            title: 'Method 1. Getting into Position',
             content: 'Take a firm grip on the bat with both hands. Assume a comfortable stance '
                 'and be ready to adjust during games. Hold the bat at waist height until it’s time to swing.',
           ),

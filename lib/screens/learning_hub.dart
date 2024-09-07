@@ -25,7 +25,7 @@ class LearningHub extends StatelessWidget {
               children: [
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => PdfViewerScreen(url: 'assets/ICC Playing Handbook 2019-20.pdf',)));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => PdfViewerScreen()));
                   },
                   child: CardWidget(
                     title: 'ICC Playing Handbook 2019-20',

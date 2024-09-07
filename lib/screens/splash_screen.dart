@@ -61,7 +61,7 @@
 //           mainAxisAlignment: MainAxisAlignment.center,
 //           children: [
 //             Image.asset(
-//               'assets/images/letter-c-outline.png',
+//               'assets/images/Cricklyzer-logo-2.png',
 //               width: 120,
 //               height: 120,
 //             ),
@@ -130,7 +130,7 @@ class _SplashScreenState extends State<SplashScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
-              'assets/images/letter-c-outline.png',
+              'assets/images/Cricklyzer-logo-2.png',
               width: 120,
               height: 120,
             ),

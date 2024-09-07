@@ -1,24 +1,207 @@
-// import 'package:flutter/material.dart';
-// import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
-//
-// class PdfViewerScreen extends StatefulWidget {
-//   const PdfViewerScreen({Key? key}) : super(key: key);
-//
-//   @override
-//   _PdfViewerScreenState createState() => _PdfViewerScreenState();
-// }
-//
-// class _PdfViewerScreenState extends State<PdfViewerScreen> {
-//   final String assetPath = "assets/ICC Playing Handbook 2019-20.pdf";
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(title: Text('PDF Viewer')),
-//       body: SfPdfViewer.asset(assetPath),
-//     );
-//   }
-// }
+import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+
+class PdfViewerScreen extends StatefulWidget {
+  const PdfViewerScreen({Key? key}) : super(key: key);
+
+  @override
+  _PdfViewerScreenState createState() => _PdfViewerScreenState();
+}
+
+class _PdfViewerScreenState extends State<PdfViewerScreen> {
+  final String assetPath = "assets/ICC Playing Handbook 2019-20.pdf";
+  PdfViewerController _pdfViewerController = PdfViewerController();
+  final TextEditingController _pageController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
+  int _totalPages = 0; // To store the total number of pages
+  int _currentPage = 0; // To store the current page number
+  PdfTextSearchResult _searchResult = PdfTextSearchResult(); // To store search results
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('ICC Handbook'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {
+              _showSearchDialog(context);
+            },
+          ),
+        ],
+      ),
+      body: Stack(
+        children: [
+          SfPdfViewer.asset(
+            assetPath,
+            controller: _pdfViewerController,
+            enableDoubleTapZooming: true,
+            pageLayoutMode: PdfPageLayoutMode.continuous,
+            onDocumentLoaded: (PdfDocumentLoadedDetails details) {
+              setState(() {
+                _totalPages = details.document.pages.count;
+                _currentPage = 1;
+              });
+            },
+            onPageChanged: (PdfPageChangedDetails details) {
+              setState(() {
+                _currentPage = details.newPageNumber;
+              });
+            },
+          ),
+          Positioned(
+            bottom: 10,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                decoration: BoxDecoration(
+                  color: Colors.black.withOpacity(0.6),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Text(
+                  'Page $_currentPage of $_totalPages',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+      bottomNavigationBar: _searchResult.totalInstanceCount > 0
+          ? _buildSearchNavigation()
+          : SizedBox.shrink(),
+    );
+  }
+
+  void _showSearchDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("Search Topic"),
+          content: TextField(
+            controller: _searchController,
+            decoration: InputDecoration(
+              hintText: "Enter topic or text to search", // Hinted text for search
+            ),
+          ),
+          actions: [
+            TextButton(
+              child: Text("Search"),
+              onPressed: () async {
+                if (_searchController.text.isNotEmpty) {
+                  _searchResult = await _pdfViewerController.searchText(_searchController.text);
+                  if (_searchResult.totalInstanceCount == 0) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("No results found for '${_searchController.text}'")),
+                    );
+                  } else {
+                    Navigator.of(context).pop();
+                  }
+                }
+              },
+            ),
+            TextButton(
+              child: Text("Cancel"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  // Navigation for search results (Next and Previous)
+  Widget _buildSearchNavigation() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        IconButton(
+          icon: Icon(Icons.navigate_before),
+          onPressed: () {
+            if (_searchResult.currentInstanceIndex > 1) {
+              _searchResult.previousInstance(); // Navigate to previous search result
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text("No previous results")),
+              );
+            }
+          },
+        ),
+        IconButton(
+          icon: Icon(Icons.navigate_next),
+          onPressed: () {
+            if (_searchResult.currentInstanceIndex < _searchResult.totalInstanceCount) {
+              _searchResult.nextInstance(); // Navigate to next search result
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text("No more results")),
+              );
+            }
+          },
+        ),
+      ],
+    );
+  }
+
+  // Method to show dialog for entering a page number to navigate to
+  void _showGoToPageDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("Go to Page"),
+          content: TextField(
+            controller: _pageController,
+            keyboardType: TextInputType.number,
+            decoration: InputDecoration(
+              hintText: "Enter page number (1-$_totalPages)", // Display the total number of pages as a hint
+            ),
+          ),
+          actions: [
+            TextButton(
+              child: Text("Go"),
+              onPressed: () {
+                int? page = int.tryParse(_pageController.text);
+                if (page == null || page < 1 || page > _totalPages) {
+                  // Handle out-of-range or invalid input
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("Please enter a valid page number between 1 and $_totalPages.")),
+                  );
+                } else {
+                  _pdfViewerController.jumpToPage(page);
+                  Navigator.of(context).pop(); // Close the dialog after navigating to the page
+                }
+              },
+            ),
+            TextButton(
+              child: Text("Cancel"),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog without action
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+
+
+
+
+
+
+
+
 
 
 // import 'package:flutter/material.dart';
@@ -94,7 +277,7 @@
 //           IconButton(
 //             icon: Icon(Icons.bookmark),
 //             onPressed: _toggleBookmark,
-//             color: _bookmarks.contains(_currentPage) ? Color(0xffe01312) : null,
+//             color: _bookmarks.contains(_currentPage) ? Color(0xffcf2e2e) : null,
 //           ),
 //           IconButton(
 //             icon: Icon(Icons.list),
@@ -514,73 +697,107 @@
 // }
 
 
-import 'package:flutter/material.dart';
-import 'package:flutter_pdfview/flutter_pdfview.dart';
-import 'dart:io';
-import 'package:path_provider/path_provider.dart';
-import 'package:http/http.dart' as http;
 
-class PdfViewerScreen extends StatefulWidget {
-  final String url;
 
-  const PdfViewerScreen({Key? key, required this.url}) : super(key: key);
 
-  @override
-  _PdfViewerScreenState createState() => _PdfViewerScreenState();
-}
 
-class _PdfViewerScreenState extends State<PdfViewerScreen> {
-  String? localPath;
-  bool isLoading = true;
 
-  @override
-  void initState() {
-    super.initState();
-    loadPDF();
-  }
 
-  Future<void> loadPDF() async {
-    final response = await http.get(Uri.parse(widget.url));
-    final bytes = response.bodyBytes;
-    final dir = await getApplicationDocumentsDirectory();
-    final file = File('${dir.path}/document.pdf');
 
-    await file.writeAsBytes(bytes, flush: true);
-    setState(() {
-      localPath = file.path;
-      isLoading = false;
-    });
-  }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('PDF Viewer'),
-      ),
-      body: isLoading
-          ? Center(child: CircularProgressIndicator())
-          : PDFView(
-        filePath: localPath,
-        enableSwipe: true,
-        swipeHorizontal: true,
-        autoSpacing: false,
-        pageFling: false,
-        onRender: (_pages) {
-          setState(() {
-            isLoading = false;
-          });
-        },
-        onError: (error) {
-          print(error.toString());
-        },
-        onPageError: (page, error) {
-          print('$page: ${error.toString()}');
-        },
-        onPageChanged: (int? page, int? total) {
-          print('page change: $page/$total');
-        },
-      ),
-    );
-  }
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import 'package:flutter/material.dart';
+// import 'package:flutter_pdfview/flutter_pdfview.dart';
+// import 'dart:io';
+// import 'package:path_provider/path_provider.dart';
+// import 'package:http/http.dart' as http;
+//
+// class PdfViewerScreen extends StatefulWidget {
+//   final String url;
+//
+//   const PdfViewerScreen({Key? key, required this.url}) : super(key: key);
+//
+//   @override
+//   _PdfViewerScreenState createState() => _PdfViewerScreenState();
+// }
+//
+// class _PdfViewerScreenState extends State<PdfViewerScreen> {
+//   String? localPath;
+//   bool isLoading = true;
+//
+//   @override
+//   void initState() {
+//     super.initState();
+//     loadPDF();
+//   }
+//
+//   Future<void> loadPDF() async {
+//     final response = await http.get(Uri.parse(widget.url));
+//     final bytes = response.bodyBytes;
+//     final dir = await getApplicationDocumentsDirectory();
+//     final file = File('${dir.path}/document.pdf');
+//
+//     await file.writeAsBytes(bytes, flush: true);
+//     setState(() {
+//       localPath = file.path;
+//       isLoading = false;
+//     });
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text('PDF Viewer'),
+//       ),
+//       body: isLoading
+//           ? Center(child: CircularProgressIndicator())
+//           : PDFView(
+//         filePath: localPath,
+//         enableSwipe: true,
+//         swipeHorizontal: true,
+//         autoSpacing: false,
+//         pageFling: false,
+//         onRender: (_pages) {
+//           setState(() {
+//             isLoading = false;
+//           });
+//         },
+//         onError: (error) {
+//           print(error.toString());
+//         },
+//         onPageError: (page, error) {
+//           print('$page: ${error.toString()}');
+//         },
+//         onPageChanged: (int? page, int? total) {
+//           print('page change: $page/$total');
+//         },
+//       ),
+//     );
+//   }
+// }

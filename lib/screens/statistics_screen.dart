@@ -36,7 +36,7 @@
 //                       radius: 50,
 //                       backgroundImage: user?.photoURL != null
 //                           ? NetworkImage(user!.photoURL!)
-//                           : const AssetImage("assets/images/sample.jpg")
+//                           : const AssetImage("assets/images/sample1.jpg")
 //                               as ImageProvider<Object>?,
 //                     ),
 //                     const SizedBox(height: 10),
@@ -340,7 +340,7 @@ class StatisticsScreen extends StatelessWidget {
                     //   radius: 50,
                     //   backgroundImage: user?.photoURL != null
                     //       ? NetworkImage(user!.photoURL!)
-                    //       : const AssetImage("assets/images/sample.jpg") as ImageProvider<Object>?,
+                    //       : const AssetImage("assets/images/sample1.jpg") as ImageProvider<Object>?,
                     // ),
                     // const SizedBox(height: 10),
                     // Text(user?.displayName ?? "Guest User",
@@ -456,7 +456,7 @@ class PaceLineChart extends StatelessWidget {
             ),
           );
         } else {
-          return const CircularProgressIndicator(color: Color(0xffe01312),);
+          return const CircularProgressIndicator(color: Color(0xffcf2e2e),);
         }
       },
     );
@@ -503,7 +503,7 @@ class SpeedBoxes extends StatelessWidget {
             ],
           );
         } else {
-          return const CircularProgressIndicator(color: Color(0xffe01312),);
+          return Center(child: const CircularProgressIndicator(color: Color(0xffcf2e2e),));
         }
       },
     );
@@ -522,20 +522,21 @@ class SpeedBoxes extends StatelessWidget {
             label,
             style: const TextStyle(
               color: Colors.white,
-              fontSize: 14,
+              fontSize: 15,
             ),
           ),
           const SizedBox(height: 20),
           Text(
               "${speed.toStringAsFixed(1)} KPH",
-              style: TextStyle(color: Color(0xffe01312),
-                fontSize: 40, fontFamily: 'LED')
+              style: TextStyle(color: Color(0xffcf2e2e),
+                fontSize: 20, fontFamily: 'LED')
           ),
         ],
       ),
     );
   }
 }
+
 
 class TopDeliveries extends StatelessWidget {
   const TopDeliveries({super.key});
@@ -565,7 +566,7 @@ class TopDeliveries extends StatelessWidget {
                 return Dismissible(
                   key: Key(paceDoc.id),
                   background: Container(
-                    color: Color(0xffe01312),
+                    color: Color(0xffcf2e2e),
                     alignment: Alignment.centerRight,
                     padding: const EdgeInsets.only(right: 20),
                     child: const Icon(
@@ -580,7 +581,7 @@ class TopDeliveries extends StatelessWidget {
                       builder: (context) {
                         return AlertDialog(
                           backgroundColor: Colors.black,
-                          titleTextStyle: TextStyle(color: Colors.white, fontSize: 25),
+                          titleTextStyle: TextStyle(color: Colors.white, fontSize: 24),
                           title: const Text("Delete Record"),
                           contentTextStyle: TextStyle(color: Colors.white,),
                           content: const Text("Are you sure you want to delete this record?"),
@@ -609,7 +610,7 @@ class TopDeliveries extends StatelessWidget {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: const Text('Record deleted successfully'),
-                        backgroundColor: Color(0xffe01312),
+                        backgroundColor: Color(0xffcf2e2e),
                       ),
                     );
                   },
@@ -651,7 +652,7 @@ class TopDeliveries extends StatelessWidget {
             ),
           );
         } else {
-          return const CircularProgressIndicator(color: Color(0xffe01312),);
+          return const CircularProgressIndicator(color: Color(0xffcf2e2e),);
         }
       },
     );

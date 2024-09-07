@@ -21,7 +21,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image.asset(
-            'assets/images/letter-c-outline.png',
+            'assets/images/Cricklyzer-logo-2.png',
             width: 40,
             height: 40,
           ),
@@ -29,7 +29,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           const Text(
             textAlign: TextAlign.center,
             'Cricklyzer',
-            style: TextStyle(color: Colors.black, fontSize: 30, fontWeight: FontWeight.bold, fontFamily: 'Winner'),
+            style: TextStyle(color: Colors.black, fontSize: 30, fontWeight: FontWeight.bold,),
           ),
         ],
       ),
@@ -42,7 +42,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               radius: 15,
               backgroundImage: user?.photoURL != null
                   ? NetworkImage(user!.photoURL!)
-                  : const AssetImage("assets/images/sample.jpg") as ImageProvider<Object>?,
+                  : const AssetImage("assets/images/sample1.jpg") as ImageProvider<Object>?,
             ),
             onTap: (){
               showModalBottomSheet(

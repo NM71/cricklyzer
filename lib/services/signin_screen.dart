@@ -48,7 +48,7 @@
 //           Padding(
 //             padding: const EdgeInsets.only(bottom: 16.0),
 //             child: Image.asset(
-//               'assets/images/letter-c-outline.png',
+//               'assets/images/Cricklyzer-logo-2.png',
 //               height: 120,
 //             ),
 //           ),
@@ -69,7 +69,7 @@
 //           const SizedBox(height: 30,),
 //           Container(
 //             decoration: BoxDecoration(
-//               border: Border.all(color: Color(0xffe01312),width: 3),
+//               border: Border.all(color: Color(0xffcf2e2e),width: 3),
 //               borderRadius: BorderRadius.circular(15),
 //             ),
 //             child: Padding(
@@ -165,7 +165,7 @@ class _SignInScreenState extends State<SignInScreen> {
             Padding(
               padding: const EdgeInsets.only(bottom: 16.0),
               child: Image.asset(
-                'assets/images/letter-c-outline.png',
+                'assets/images/Cricklyzer-logo-2.png',
                 height: 120,
               ),
             ),
@@ -187,7 +187,7 @@ class _SignInScreenState extends State<SignInScreen> {
             const SizedBox(height: 30),
             Container(
               decoration: BoxDecoration(
-                border: Border.all(color: const Color(0xffe01312), width: 3),
+                border: Border.all(color: const Color(0xffcf2e2e), width: 3),
                 borderRadius: BorderRadius.circular(15),
               ),
               child: Padding(

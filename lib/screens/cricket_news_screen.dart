@@ -78,7 +78,7 @@ class _CricketNewsScreenState extends State<CricketNewsScreen> {
           child: isLoading
               ? Center(
                   child: CircularProgressIndicator(
-                  color: Color(0xffe01312),
+                  color: Color(0xffcf2e2e),
                 ))
               : ListView.builder(
                   itemCount: newsItems.length,

@@ -21,11 +21,21 @@ class UserProfileBottomSheet extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          Text(
+            'User Profile',
+            style: TextStyle(
+              fontSize: 25,
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(height: 30,),
           CircleAvatar(
             radius: 50,
             backgroundImage: user?.photoURL != null
                 ? NetworkImage(user!.photoURL!)
-                : const AssetImage("assets/images/sample.jpg") as ImageProvider<Object>?,
+                : const AssetImage("assets/images/sample1.jpg")
+                    as ImageProvider<Object>?,
           ),
           const SizedBox(height: 10),
           Text(user?.displayName ?? "Guest User",
@@ -39,7 +49,7 @@ class UserProfileBottomSheet extends StatelessWidget {
           const SizedBox(height: 40),
           ElevatedButton(
             style: ButtonStyle(
-              backgroundColor: WidgetStatePropertyAll<Color>(Color(0xffe01312)),
+              backgroundColor: WidgetStatePropertyAll<Color>(Color(0xffcf2e2e)),
             ),
             onPressed: () async {
               await FirebaseAuth.instance.signOut();
