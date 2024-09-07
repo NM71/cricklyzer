@@ -300,53 +300,6 @@
 // }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import 'package:cricklyzer/widgets/appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -383,22 +336,21 @@ class StatisticsScreen extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    CircleAvatar(
-                      radius: 50,
-                      backgroundImage: user?.photoURL != null
-                          ? NetworkImage(user!.photoURL!)
-                          : const AssetImage("assets/images/sample.jpg")
-                      as ImageProvider<Object>?,
-                    ),
-                    const SizedBox(height: 10),
-                    Text(
-                        user?.displayName ?? "",
-                        style:  TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,)
-                    ),
+                    // CircleAvatar(
+                    //   radius: 50,
+                    //   backgroundImage: user?.photoURL != null
+                    //       ? NetworkImage(user!.photoURL!)
+                    //       : const AssetImage("assets/images/sample.jpg") as ImageProvider<Object>?,
+                    // ),
+                    // const SizedBox(height: 10),
+                    // Text(user?.displayName ?? "Guest User",
+                    //     style: TextStyle(
+                    //       fontSize: 18,
+                    //       color: Colors.black,
+                    //       fontWeight: FontWeight.bold,
+                    //     )),
                     const SizedBox(
-                      height: 20,
+                      height: 10,
                     ),
                     Text(
                         "Your Pace History",
@@ -408,10 +360,25 @@ class StatisticsScreen extends StatelessWidget {
                         )
                     ),
                     const SizedBox(height: 30),
+                    const SpeedBoxes(),
+                    const SizedBox(height: 30),
                     const PaceLineChart(),
                     const SizedBox(height: 20),
-                    const SpeedBoxes(),
-                    const SizedBox(height: 20),
+                    Padding(
+                      padding: const EdgeInsets.all(18.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                              "Recent Deliveries",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 22,
+                              )
+                          ),
+                        ],
+                      ),
+                    ),
                     const TopDeliveries(),
                   ],
                 ),
@@ -447,15 +414,15 @@ class PaceLineChart extends StatelessWidget {
             paceData.add(FlSpot(i.toDouble(), paceDataMap["pace"]));
           }
           return AspectRatio(
-            aspectRatio: 1.8,
+            aspectRatio: 1.5,
             child: LineChart(
               LineChartData(
                 lineBarsData: [
                   LineChartBarData(
                     spots: paceData,
                     isCurved: true,
-                    color: Color(0xffe01312),
-                    barWidth: 2,
+                    color: Color(0xff000000),
+                    barWidth: 3,
                     isStrokeCapRound: false,
                     dotData: const FlDotData(
                       show: true,
@@ -472,13 +439,13 @@ class PaceLineChart extends StatelessWidget {
                   show: true,
                   topTitles: AxisTitles(
                     sideTitles: SideTitles(
-                      showTitles: true,
+                      // showTitles: true,
                       getTitlesWidget: (value, meta) {
                         return Text(
                           value.toStringAsFixed(2),
                           style: const TextStyle(
                             color: Colors.black,
-                            fontSize: 9,
+                            fontSize: 8,
                           ),
                         );
                       },
@@ -489,7 +456,7 @@ class PaceLineChart extends StatelessWidget {
             ),
           );
         } else {
-          return const CircularProgressIndicator();
+          return const CircularProgressIndicator(color: Color(0xffe01312),);
         }
       },
     );
@@ -536,7 +503,7 @@ class SpeedBoxes extends StatelessWidget {
             ],
           );
         } else {
-          return const CircularProgressIndicator();
+          return const CircularProgressIndicator(color: Color(0xffe01312),);
         }
       },
     );
@@ -546,7 +513,7 @@ class SpeedBoxes extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: Colors.black,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(5),
       ),
       padding: const EdgeInsets.all(15),
       child: Column(
@@ -555,14 +522,14 @@ class SpeedBoxes extends StatelessWidget {
             label,
             style: const TextStyle(
               color: Colors.white,
-              fontSize: 16,
+              fontSize: 14,
             ),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 20),
           Text(
-              "${speed.toStringAsFixed(1)} km/hr",
-              style: TextStyle(color: Colors.white,
-                fontSize: 20,)
+              "${speed.toStringAsFixed(1)} KPH",
+              style: TextStyle(color: Color(0xffe01312),
+                fontSize: 40, fontFamily: 'LED')
           ),
         ],
       ),
@@ -613,9 +580,9 @@ class TopDeliveries extends StatelessWidget {
                       builder: (context) {
                         return AlertDialog(
                           backgroundColor: Colors.black,
-                          titleTextStyle: TextStyle(color: Colors.white, fontFamily: 'Symthe', fontSize: 25),
+                          titleTextStyle: TextStyle(color: Colors.white, fontSize: 25),
                           title: const Text("Delete Record"),
-                          contentTextStyle: TextStyle(color: Colors.white, fontFamily: 'Symthe'),
+                          contentTextStyle: TextStyle(color: Colors.white,),
                           content: const Text("Are you sure you want to delete this record?"),
                           actions: [
                             TextButton(
@@ -642,7 +609,7 @@ class TopDeliveries extends StatelessWidget {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: const Text('Record deleted successfully'),
-                        backgroundColor: Colors.red,
+                        backgroundColor: Color(0xffe01312),
                       ),
                     );
                   },
@@ -661,7 +628,7 @@ class TopDeliveries extends StatelessWidget {
                       child: Column(
                         children: [
                           Text(
-                            "${paceData["pace"].toStringAsFixed(1)} km/hr",
+                            "${paceData["pace"].toStringAsFixed(1)} KPH",
                             style: const TextStyle(
                               fontSize: 20,
                               color: Colors.white,
@@ -684,7 +651,7 @@ class TopDeliveries extends StatelessWidget {
             ),
           );
         } else {
-          return const CircularProgressIndicator();
+          return const CircularProgressIndicator(color: Color(0xffe01312),);
         }
       },
     );

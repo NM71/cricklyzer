@@ -43,10 +43,13 @@ class CustomButton extends StatelessWidget {
           backgroundColor: WidgetStateProperty.all<Color>(const Color(0xffe01312),),
           shape: WidgetStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(14.0)))),
-      child: Text(
-        text,
-        style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                  borderRadius: BorderRadius.circular(10.0)))),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text(
+          text,
+          style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+        ),
       ),
     );
   }

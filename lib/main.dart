@@ -3,6 +3,7 @@ import 'package:cricklyzer/Screens/calculate_pace.dart';
 import 'package:cricklyzer/Screens/home_screen.dart';
 import 'package:cricklyzer/Screens/statistics_screen.dart';
 import 'package:cricklyzer/firebase_options.dart';
+import 'package:cricklyzer/screens/learning_screens/cricket_basics.dart';
 import 'package:cricklyzer/screens/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -28,27 +29,13 @@ class MyApp extends StatelessWidget {
     return  MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-          fontFamily: 'Symthe'
+          fontFamily: 'Pxoxima Nova'
       ),
-      home: SplashScreen(),
+      home: HomeScreen(),
       title: "Cricklyzer",
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

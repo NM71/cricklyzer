@@ -1,22 +1,304 @@
+//
+//
+// // -----------------------------------------
+//
+// import 'package:cricklyzer/Screens/calculate_pace.dart';
+// import 'package:cricklyzer/widgets/appbar.dart';
+// import 'package:cricklyzer/widgets/custom_buttons.dart';
+// import 'package:flutter/material.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:cricklyzer/widgets/bottom_navigation_bar.dart';
+// import 'package:carousel_slider/carousel_slider.dart';
+// import 'package:url_launcher/url_launcher.dart';
+// import 'package:http/http.dart' as http;
+// import 'dart:convert';
+// import 'package:intl/intl.dart';
+//
+// class HomeScreen extends StatefulWidget {
+//   HomeScreen({Key? key}) : super(key: key);
+//
+//   @override
+//   _HomeScreenState createState() => _HomeScreenState();
+// }
+//
+// class _HomeScreenState extends State<HomeScreen> {
+//   List<Map<String, dynamic>> newsItems = [];
+//   bool isLoading = true;
+//
+//   @override
+//   void initState() {
+//     super.initState();
+//     fetchRssFeed();
+//   }
+//
+//   Future<void> fetchRssFeed() async {
+//     try {
+//       final response = await http.get(Uri.parse(
+//           'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.espncricinfo.com%2Frss%2Fcontent%2Fstory%2Ffeeds%2F0.xml'));
+//
+//       if (response.statusCode == 200) {
+//         final data = json.decode(response.body);
+//         if (data['status'] == 'ok') {
+//           setState(() {
+//             newsItems = List<Map<String, dynamic>>.from(data['items']);
+//             isLoading = false;
+//           });
+//         } else {
+//           throw Exception('Failed to load RSS feed: ${data['message']}');
+//         }
+//       } else {
+//         throw Exception('Failed to load RSS feed');
+//       }
+//     } catch (e) {
+//       ScaffoldMessenger.of(context).showSnackBar(
+//         SnackBar(content: Text('Error loading news: $e')),
+//       );
+//       setState(() {
+//         isLoading = false;
+//       });
+//     }
+//   }
+//
+//   Future<void> _launchURL(String url) async {
+//     if (await canLaunch(url)) {
+//       await launch(url);
+//     } else {
+//       throw 'Could not launch $url';
+//     }
+//   }
+//
+//   String _formatDate(String dateString) {
+//     final dateTime = DateTime.parse(dateString);
+//     return DateFormat('MMM d, yyyy - h:mm a').format(dateTime.toLocal());
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     const selectedIndex = 0;
+//     User? user = FirebaseAuth.instance.currentUser;
+//
+//     return Scaffold(
+//       appBar: CustomAppBar(),
+//       body: Stack(
+//         children: [
+//           Container(
+//             decoration: const BoxDecoration(
+//               color: Color(0xffffffff),
+//             ),
+//             child: Column(
+//               crossAxisAlignment: CrossAxisAlignment.start,
+//               children: [
+//                 Padding(
+//                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+//                   child: Text(
+//                     'Welcome, ${user?.displayName ?? "Guest User"}',
+//                     style: const TextStyle(
+//                       fontSize: 24,
+//                       color: Colors.black,
+//                       fontWeight: FontWeight.bold,
+//                     ),
+//                   ),
+//                 ),
+//                 const SizedBox(height: 20),
+//                 isLoading
+//                     ? const Center(child: CircularProgressIndicator())
+//                     : CarouselSlider.builder(
+//                   itemCount: newsItems.length,
+//                   options: CarouselOptions(
+//                     height: MediaQuery.of(context).size.height * 0.3,
+//                     autoPlay: true,
+//                     autoPlayInterval: const Duration(seconds: 3),
+//                     autoPlayAnimationDuration: const Duration(milliseconds: 800),
+//                     autoPlayCurve: Curves.fastOutSlowIn,
+//                     enlargeCenterPage: true,
+//                     viewportFraction: 0.9,
+//                   ),
+//                   itemBuilder: (context, index, realIndex) {
+//                     final item = newsItems[index];
+//                     final imageUrl = item['enclosure']?['link'] ?? 'https://via.placeholder.com/300x200?text=No+Image';
+//
+//                     return GestureDetector(
+//                       onTap: () => _launchURL(item['link'] ?? ''),
+//                       child: Card(
+//                         shape: RoundedRectangleBorder(
+//                           borderRadius: BorderRadius.circular(15.0),
+//                         ),
+//                         child: Stack(
+//                           fit: StackFit.expand,
+//                           children: [
+//                             ClipRRect(
+//                               borderRadius: BorderRadius.circular(15.0),
+//                               child: Image.network(
+//                                 imageUrl,
+//                                 fit: BoxFit.cover,
+//                                 errorBuilder: (context, error, stackTrace) {
+//                                   return Center(child: Text('Failed to load image'));
+//                                 },
+//                               ),
+//                             ),
+//                             Container(
+//                               decoration: BoxDecoration(
+//                                 borderRadius: BorderRadius.circular(15.0),
+//                                 gradient: LinearGradient(
+//                                   begin: Alignment.topCenter,
+//                                   end: Alignment.bottomCenter,
+//                                   colors: [Colors.transparent, Colors.black.withOpacity(0.7)],
+//                                 ),
+//                               ),
+//                             ),
+//                             Padding(
+//                               padding: const EdgeInsets.all(8.0),
+//                               child: Column(
+//                                 mainAxisAlignment: MainAxisAlignment.end,
+//                                 crossAxisAlignment: CrossAxisAlignment.start,
+//                                 children: [
+//                                   Text(
+//                                     item['title'] ?? '',
+//                                     style: const TextStyle(
+//                                       color: Colors.white,
+//                                       fontSize: 16,
+//                                       fontWeight: FontWeight.bold,
+//                                     ),
+//                                     maxLines: 2,
+//                                     overflow: TextOverflow.ellipsis,
+//                                   ),
+//                                   const SizedBox(height: 4),
+//                                   Text(
+//                                     _formatDate(item['pubDate'] ?? ''),
+//                                     style: const TextStyle(
+//                                       color: Colors.white70,
+//                                       fontSize: 12,
+//                                     ),
+//                                   ),
+//                                 ],
+//                               ),
+//                             ),
+//                           ],
+//                         ),
+//                       ),
+//                     );
+//                   },
+//                 ),
+//                 const SizedBox(height: 30),
+//                 Center(
+//                   child: Column(
+//                     children: [
+//                       const Text(
+//                         'Want to know your Pace?',
+//                         style: TextStyle(
+//                           fontSize: 18,
+//                           color: Colors.black,
+//                           fontWeight: FontWeight.bold,
+//                         ),
+//                       ),
+//                       const SizedBox(height: 10),
+//                       CustomButton(
+//                         onPressed: () {
+//                           Navigator.push(
+//                             context,
+//                             MaterialPageRoute(
+//                               builder: (context) => const CalculatePace(),
+//                             ),
+//                           );
+//                         },
+//                         text: 'Calculate Pace',
+//                       ),
+//                     ],
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ),
+//           const Positioned(
+//             left: 0,
+//             right: 0,
+//             bottom: 0,
+//             child: CustomBottomNavigationBar(selectedIndex: selectedIndex),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
+//
+//
+// //--------------------------------------------
+//
+//
+
+// home_screen.dart
 import 'package:cricklyzer/Screens/calculate_pace.dart';
+import 'package:cricklyzer/Screens/statistics_screen.dart';
+import 'package:cricklyzer/widgets/live_scores.dart';
+import 'package:cricklyzer/widgets/animated_FAB.dart';
 import 'package:cricklyzer/widgets/appbar.dart';
 import 'package:cricklyzer/widgets/custom_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cricklyzer/widgets/bottom_navigation_bar.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:intl/intl.dart';
 
-class HomeScreen extends StatelessWidget {
-  HomeScreen({super.key});
+class HomeScreen extends StatefulWidget {
+  HomeScreen({Key? key}) : super(key: key);
 
-  final List<String> imageUrls = [
-    'https://img1.hscicdn.com/image/upload/f_auto,t_ds_w_1200,q_50/lsci/db/PICTURES/CMS/383000/383003.jpg',
-    'https://images.hindustantimes.com/img/2022/05/20/1600x900/image_-_2022-05-20T175125.385_1653049289821_1653049294581.jpg',
-    'https://img1.hscicdn.com/image/upload/f_auto,t_ds_w_1200,q_50/lsci/db/PICTURES/CMS/56500/56593.jpg',
-    'https://img1.hscicdn.com/image/upload/f_auto,t_ds_w_1200,q_50/lsci/db/PICTURES/CMS/95000/95077.jpg',
-    'https://img1.hscicdn.com/image/upload/f_auto,t_ds_w_960,q_50/lsci/db/PICTURES/CMS/105100/105142.jpg',
-    'https://img1.hscicdn.com/image/upload/f_auto,t_ds_w_1200,q_50/lsci/db/PICTURES/CMS/383900/383994.jpg',
-  ];
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  List<Map<String, dynamic>> newsItems = [];
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchRssFeed();
+  }
+
+  Future<void> fetchRssFeed() async {
+    try {
+      final response = await http.get(Uri.parse(
+          'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.espncricinfo.com%2Frss%2Fcontent%2Fstory%2Ffeeds%2F0.xml'));
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        if (data['status'] == 'ok') {
+          setState(() {
+            newsItems = List<Map<String, dynamic>>.from(data['items']);
+            isLoading = false;
+          });
+        } else {
+          throw Exception('Failed to load RSS feed: ${data['message']}');
+        }
+      } else {
+        throw Exception('Failed to load RSS feed');
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error loading news: $e')),
+      );
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+  Future<void> _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  String _formatDate(String dateString) {
+    final dateTime = DateTime.parse(dateString);
+    return DateFormat('MMM d, yyyy - h:mm a').format(dateTime.toLocal());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,95 +307,450 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: CustomAppBar(),
-      body: Stack(
-        children: [
-            Container(
-              decoration: BoxDecoration(
-                color: Color(0xffffffff),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 20),
-                    child: Text(
-                      'Welcome, ${user?.displayName ?? "Guest User"}',
-                      style: const TextStyle(
-                        fontSize: 24,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
+      body: Container(
+        decoration: const BoxDecoration(
+          color: Color(0xffffffff),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+                      child: Row(
+                        children: [
+                          Text(
+                            'Welcome, ',
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: Colors.black,
+                            ),
+                          ),
+                          Text(
+                            '${user?.displayName ?? "Guest User"}',
+                            style: const TextStyle(
+                              fontSize: 14,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ),
-                  SizedBox(height: 40,),
-                  CarouselSlider.builder(
-                    itemCount: imageUrls.length,
-                    options: CarouselOptions(
-                      height: MediaQuery.sizeOf(context).height*0.3,
-                      autoPlay: true,
-                      autoPlayInterval: const Duration(seconds: 3),
-                      autoPlayAnimationDuration:
-                          const Duration(milliseconds: 800),
-                      autoPlayCurve: Curves.fastOutSlowIn,
-                      enlargeCenterPage: true,
-                      enlargeStrategy: CenterPageEnlargeStrategy.height,
-                      viewportFraction: 0.9,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+                      child: Text(
+                        'Your Pace Record',
+                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                      ),
                     ),
-                    itemBuilder: (context, index, realIndex) {
-                      final imageUrl = imageUrls[index];
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
-                          child: Image.network(
-                            imageUrl,
-                            fit: BoxFit.cover,
-                            width: double.infinity,
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                  const SizedBox(height: 30),
-                  Center(
-                    child: Column(
+                    SpeedBoxes(),
+                    Column(
                       children: [
-                        Text(
-                          'Want to know your Pace?',
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        CustomButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const CalculatePace(),
-                              ),
-                            );
-                          },
-                          text: 'Calculate Pace',
-                        ),
+                        LiveScoresWidget(),
                       ],
                     ),
-                  ),
-                ],
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+                      child: Text(
+                        'Top News',
+                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    isLoading
+                        ? const Center(
+                        child: CircularProgressIndicator(
+                          color: Color(0xffe01312),
+                        ))
+                        : CarouselSlider.builder(
+                      itemCount: newsItems.length,
+                      options: CarouselOptions(
+                        height: MediaQuery.of(context).size.height * 0.3,
+                        autoPlay: true,
+                        autoPlayInterval: const Duration(seconds: 3),
+                        autoPlayAnimationDuration: const Duration(milliseconds: 1000),
+                        autoPlayCurve: Curves.fastOutSlowIn,
+                        enlargeCenterPage: true,
+                        viewportFraction: 0.9,
+                      ),
+                      itemBuilder: (context, index, realIndex) {
+                        final item = newsItems[index];
+                        final imageUrl = (item['enclosure'] != null &&
+                            item['enclosure']['link'] != null)
+                            ? item['enclosure']['link']
+                            .replaceFirst('http://', 'https://')
+                            : 'https://via.placeholder.com/300x200?text=No+Image';
+
+                        return GestureDetector(
+                          onTap: () => _launchURL(item['link'] ?? ''),
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15.0),
+                            ),
+                            child: Stack(
+                              fit: StackFit.expand,
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                  child: Image.network(
+                                    imageUrl,
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (context, error, stackTrace) {
+                                      return Center(child: Text('Failed to load image'));
+                                    },
+                                  ),
+                                ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15.0),
+                                    gradient: LinearGradient(
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
+                                      colors: [
+                                        Colors.transparent,
+                                        Colors.black.withOpacity(0.7)
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        item['title'] ?? '',
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      const SizedBox(height: 4),
+                                      Text(
+                                        _formatDate(item['pubDate'] ?? ''),
+                                        style: const TextStyle(
+                                          color: Colors.white70,
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
-          const Positioned(
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: CustomBottomNavigationBar(selectedIndex: selectedIndex),
-          ),
-        ],
+          ],
+        ),
       ),
+      bottomNavigationBar: CustomBottomNavigationBar(selectedIndex: selectedIndex),
+      floatingActionButton: FloatingActionAnimation(),
     );
   }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import 'package:flutter/material.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:carousel_slider/carousel_slider.dart';
+// import 'package:webview_flutter/webview_flutter.dart';
+// import 'package:http/http.dart' as http;
+// import 'dart:convert';
+// import 'package:intl/intl.dart';
+//
+// // Import your custom widgets
+// import 'package:cricklyzer/widgets/live_scores.dart';
+// import 'package:cricklyzer/widgets/animated_FAB.dart';
+// import 'package:cricklyzer/widgets/appbar.dart';
+// import 'package:cricklyzer/widgets/bottom_navigation_bar.dart';
+//
+// class HomeScreen extends StatefulWidget {
+//   HomeScreen({Key? key}) : super(key: key);
+//
+//   @override
+//   _HomeScreenState createState() => _HomeScreenState();
+// }
+//
+// class _HomeScreenState extends State<HomeScreen> {
+//   List<Map<String, dynamic>> newsItems = [];
+//   bool isLoading = true;
+//   late WebViewController _webViewController;
+//
+//   @override
+//   void initState() {
+//     super.initState();
+//     fetchRssFeed();
+//
+//     _webViewController = WebViewController()
+//       ..setJavaScriptMode(JavaScriptMode.unrestricted)
+//       ..setNavigationDelegate(
+//         NavigationDelegate(
+//           onNavigationRequest: (NavigationRequest request) {
+//             return NavigationDecision.navigate;
+//           },
+//         ),
+//       );
+//   }
+//
+//   Future<void> fetchRssFeed() async {
+//     try {
+//       final response = await http.get(Uri.parse(
+//           'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.espncricinfo.com%2Frss%2Fcontent%2Fstory%2Ffeeds%2F0.xml'));
+//
+//       if (response.statusCode == 200) {
+//         final data = json.decode(response.body);
+//         if (data['status'] == 'ok') {
+//           setState(() {
+//             newsItems = List<Map<String, dynamic>>.from(data['items']);
+//             isLoading = false;
+//           });
+//         } else {
+//           throw Exception('Failed to load RSS feed: ${data['message']}');
+//         }
+//       } else {
+//         throw Exception('Failed to load RSS feed');
+//       }
+//     } catch (e) {
+//       ScaffoldMessenger.of(context).showSnackBar(
+//         SnackBar(content: Text('Error loading news: $e')),
+//       );
+//       setState(() {
+//         isLoading = false;
+//       });
+//     }
+//   }
+//
+//   void _openWebView(String url) {
+//     _webViewController.loadRequest(Uri.parse(url));
+//     Navigator.of(context).push(
+//       MaterialPageRoute(
+//         builder: (context) => Scaffold(
+//           appBar: AppBar(
+//             title: Text('News'),
+//             leading: IconButton(
+//               icon: Icon(Icons.arrow_back),
+//               onPressed: () => Navigator.of(context).pop(),
+//             ),
+//           ),
+//           body: WebViewWidget(controller: _webViewController),
+//         ),
+//       ),
+//     );
+//   }
+//
+//   String _formatDate(String dateString) {
+//     final dateTime = DateTime.parse(dateString);
+//     return DateFormat('MMM d, yyyy - h:mm a').format(dateTime.toLocal());
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     const selectedIndex = 0;
+//     User? user = FirebaseAuth.instance.currentUser;
+//
+//     return Scaffold(
+//       appBar: CustomAppBar(),
+//       body: Container(
+//         decoration: const BoxDecoration(
+//           color: Color(0xffffffff),
+//         ),
+//         child: Column(
+//           crossAxisAlignment: CrossAxisAlignment.start,
+//           children: [
+//             Expanded(
+//               child: SingleChildScrollView(
+//                 child: Column(
+//                   crossAxisAlignment: CrossAxisAlignment.start,
+//                   children: [
+//                     Padding(
+//                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+//                       child: Row(
+//                         children: [
+//                           Text(
+//                             'Welcome, ',
+//                             style: const TextStyle(
+//                               fontSize: 12,
+//                               color: Colors.black,
+//                             ),
+//                           ),
+//                           Text(
+//                             '${user?.displayName ?? "Guest User"}',
+//                             style: const TextStyle(
+//                               fontSize: 14,
+//                               color: Colors.black,
+//                               fontWeight: FontWeight.bold,
+//                             ),
+//                           ),
+//                         ],
+//                       ),
+//                     ),
+//                     Column(
+//                       children: [
+//                         LiveScoresWidget(),
+//                       ],
+//                     ),
+//                     Padding(
+//                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+//                       child: Text(
+//                         'Top News',
+//                         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+//                       ),
+//                     ),
+//                     const SizedBox(height: 10),
+//                     isLoading
+//                         ? const Center(
+//                         child: CircularProgressIndicator(
+//                           color: Color(0xffe01312),
+//                         ))
+//                         : CarouselSlider.builder(
+//                       itemCount: newsItems.length,
+//                       options: CarouselOptions(
+//                         height: MediaQuery.of(context).size.height * 0.3,
+//                         autoPlay: true,
+//                         autoPlayInterval: const Duration(seconds: 3),
+//                         autoPlayAnimationDuration: const Duration(milliseconds: 1000),
+//                         autoPlayCurve: Curves.fastOutSlowIn,
+//                         enlargeCenterPage: true,
+//                         viewportFraction: 0.9,
+//                       ),
+//                       itemBuilder: (context, index, realIndex) {
+//                         final item = newsItems[index];
+//                         final imageUrl = (item['enclosure'] != null &&
+//                             item['enclosure']['link'] != null)
+//                             ? item['enclosure']['link']
+//                             .replaceFirst('http://', 'https://')
+//                             : 'https://via.placeholder.com/300x200?text=No+Image';
+//
+//                         return GestureDetector(
+//                           onTap: () => _openWebView(item['link'] ?? ''),
+//                           child: Card(
+//                             shape: RoundedRectangleBorder(
+//                               borderRadius: BorderRadius.circular(15.0),
+//                             ),
+//                             child: Stack(
+//                               fit: StackFit.expand,
+//                               children: [
+//                                 ClipRRect(
+//                                   borderRadius: BorderRadius.circular(15.0),
+//                                   child: Image.network(
+//                                     imageUrl,
+//                                     fit: BoxFit.cover,
+//                                     errorBuilder: (context, error, stackTrace) {
+//                                       return Center(child: Text('Failed to load image'));
+//                                     },
+//                                   ),
+//                                 ),
+//                                 Container(
+//                                   decoration: BoxDecoration(
+//                                     borderRadius: BorderRadius.circular(15.0),
+//                                     gradient: LinearGradient(
+//                                       begin: Alignment.topCenter,
+//                                       end: Alignment.bottomCenter,
+//                                       colors: [
+//                                         Colors.transparent,
+//                                         Colors.black.withOpacity(0.7)
+//                                       ],
+//                                     ),
+//                                   ),
+//                                 ),
+//                                 Padding(
+//                                   padding: const EdgeInsets.all(8.0),
+//                                   child: Column(
+//                                     mainAxisAlignment: MainAxisAlignment.end,
+//                                     crossAxisAlignment: CrossAxisAlignment.start,
+//                                     children: [
+//                                       Text(
+//                                         item['title'] ?? '',
+//                                         style: const TextStyle(
+//                                           color: Colors.white,
+//                                           fontSize: 16,
+//                                           fontWeight: FontWeight.bold,
+//                                         ),
+//                                         maxLines: 2,
+//                                         overflow: TextOverflow.ellipsis,
+//                                       ),
+//                                       const SizedBox(height: 4),
+//                                       Text(
+//                                         _formatDate(item['pubDate'] ?? ''),
+//                                         style: const TextStyle(
+//                                           color: Colors.white70,
+//                                           fontSize: 12,
+//                                         ),
+//                                       ),
+//                                     ],
+//                                   ),
+//                                 ),
+//                               ],
+//                             ),
+//                           ),
+//                         );
+//                       },
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//             ),
+//           ],
+//         ),
+//       ),
+//       bottomNavigationBar: CustomBottomNavigationBar(selectedIndex: selectedIndex),
+//       floatingActionButton: FloatingActionAnimation(),
+//     );
+//   }
+// }

@@ -34,12 +34,12 @@ class UserProfileBottomSheet extends StatelessWidget {
                 color: Colors.black,
                 fontWeight: FontWeight.bold,
               )),
-          const SizedBox(height: 20),
-          Center(child: Text('Made with ❤️ for cricketers')),
-          const SizedBox(height: 20),
+          const SizedBox(height: 40),
+          Center(child: Text('Made with ❤️ for Cricketers')),
+          const SizedBox(height: 40),
           ElevatedButton(
             style: ButtonStyle(
-              backgroundColor: WidgetStatePropertyAll<Color>(Color.fromARGB(255, 252, 44, 29)),
+              backgroundColor: WidgetStatePropertyAll<Color>(Color(0xffe01312)),
             ),
             onPressed: () async {
               await FirebaseAuth.instance.signOut();

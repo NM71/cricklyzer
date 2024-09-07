@@ -29,7 +29,7 @@ class _CalculatePaceState extends State<CalculatePace> {
   void initState() {
     super.initState();
     _controller = VideoPlayerController.asset(
-      'assets/cricklyzer-sample.mp4',
+      'assets/sample.mp4',
     )
       ..addListener(() {
         setState(() {});
@@ -236,14 +236,22 @@ class _CalculatePaceState extends State<CalculatePace> {
             setState(() {});
           });
 
+        // _chewieController = ChewieController(
+        //   videoPlayerController: _controller,
+        //   aspectRatio: 1,
+        //   autoInitialize: true,
+        //   looping: true,
+        //   allowFullScreen: false,
+        //   showControls: false,
+        // );
         _chewieController = ChewieController(
           videoPlayerController: _controller,
-          aspectRatio: 30 / 30,
           autoInitialize: true,
           looping: true,
-          allowFullScreen: false,
-          showControls: false,
+          allowFullScreen: true,
+          showControls: true,
         );
+
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -286,7 +294,7 @@ class _CalculatePaceState extends State<CalculatePace> {
                   ),
                   SizedBox(width: 8),
                   Text(
-                    'Import Video',
+                    'Import',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 18,
@@ -316,7 +324,7 @@ class _CalculatePaceState extends State<CalculatePace> {
                   ),
                   SizedBox(width: 8),
                   Text(
-                    'Set Pitch Size',
+                    'Pitch Size',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 18,
@@ -330,13 +338,31 @@ class _CalculatePaceState extends State<CalculatePace> {
       ),
       body: Column(
         children: [
+          // Expanded(
+          //   child: Center(
+          //     child: Chewie(
+          //       controller: _chewieController,
+          //     ),
+          //   ),
+          // ),
           Expanded(
-            child: Center(
-              child: Chewie(
-                controller: _chewieController,
-              ),
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                final screenWidth = constraints.maxWidth;
+                final screenHeight = constraints.maxHeight;
+
+                return Center(
+                  child: AspectRatio(
+                    aspectRatio: _chewieController.videoPlayerController.value.aspectRatio,
+                    child: Chewie(
+                      controller: _chewieController,
+                    ),
+                  ),
+                );
+              },
             ),
           ),
+
           const SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -452,7 +478,7 @@ class _CalculatePaceState extends State<CalculatePace> {
           const SizedBox(height: 16),
           ClipRRect(
             borderRadius: BorderRadius.circular(10.0),
-            child: CustomButton(text: 'Calculate Pace', onPressed: (){
+            child: CustomButton(text: 'Find your Pace....', onPressed: (){
               _calculatePaceAndShowDialog(_releasePoint, _impactPoint);
             }),
           ),

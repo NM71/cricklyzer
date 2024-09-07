@@ -1,4 +1,5 @@
 import 'package:cricklyzer/widgets/user_profile_bottom_sheet.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -9,6 +10,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    User? user = FirebaseAuth.instance.currentUser;
+
     return AppBar(
       backgroundColor: Color(0xffffffff),
       elevation: 0,
@@ -18,27 +22,29 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         children: [
           Image.asset(
             'assets/images/letter-c-outline.png',
-            width: 30,
-            height: 30,
+            width: 40,
+            height: 40,
           ),
           const SizedBox(width: 8),
           const Text(
             textAlign: TextAlign.center,
             'Cricklyzer',
-            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 26),
+            style: TextStyle(color: Colors.black, fontSize: 30, fontWeight: FontWeight.bold, fontFamily: 'Winner'),
           ),
         ],
       ),
       centerTitle: true,
       actions: [
         Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: IconButton(
-            icon: const Icon(
-              Icons.account_circle_outlined,
-              color: Colors.black,
+          padding: const EdgeInsets.only(right: 10.0),
+          child: GestureDetector(
+            child: CircleAvatar(
+              radius: 15,
+              backgroundImage: user?.photoURL != null
+                  ? NetworkImage(user!.photoURL!)
+                  : const AssetImage("assets/images/sample.jpg") as ImageProvider<Object>?,
             ),
-            onPressed: () {
+            onTap: (){
               showModalBottomSheet(
                 context: context,
                 builder: (BuildContext context) {

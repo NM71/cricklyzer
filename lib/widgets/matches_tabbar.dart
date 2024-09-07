@@ -11,6 +11,8 @@ class MatchTabAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: const Text('Cric Scores', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),),
       centerTitle: true,
       bottom: TabBar(
+        labelColor: Colors.black,
+        labelStyle: TextStyle(fontSize: 22),
         controller: tabController,
         tabs: [
           Tab(text: 'Live'),
