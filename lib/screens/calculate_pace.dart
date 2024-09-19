@@ -541,10 +541,11 @@ class _CalculatePaceState extends State<CalculatePace> {
     _chewieController = ChewieController(
       videoPlayerController: _controller,
       aspectRatio: 1,
-      autoInitialize: true,
-      looping: true,
-      allowFullScreen: true,
+      autoInitialize: false,
+      looping: false,
+      allowFullScreen: false,
       showControls: false,
+      zoomAndPan: true,
 
     );
   }
@@ -737,7 +738,7 @@ class _CalculatePaceState extends State<CalculatePace> {
 
         _chewieController = ChewieController(
           videoPlayerController: _controller,
-          aspectRatio: 30 / 30,
+          aspectRatio: 1,
           autoInitialize: true,
           looping: true,
           allowFullScreen: false,
@@ -759,7 +760,6 @@ class _CalculatePaceState extends State<CalculatePace> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        leading: null,
         iconTheme: const IconThemeData(
           color: Colors.white,
         ),
@@ -785,7 +785,7 @@ class _CalculatePaceState extends State<CalculatePace> {
                   ),
                   SizedBox(width: 8),
                   Text(
-                    'Import Video',
+                    'Import',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 18,
@@ -815,7 +815,7 @@ class _CalculatePaceState extends State<CalculatePace> {
                   ),
                   SizedBox(width: 8),
                   Text(
-                    'Set Pitch Size',
+                    'Pitch Size',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 18,
@@ -836,7 +836,6 @@ class _CalculatePaceState extends State<CalculatePace> {
               ),
             ),
           ),
-          const SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

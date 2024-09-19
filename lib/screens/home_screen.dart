@@ -532,22 +532,11 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   List<Map<String, dynamic>> newsItems = [];
   bool isLoading = true;
-  late WebViewController _webViewController;
 
   @override
   void initState() {
     super.initState();
     fetchRssFeed();
-
-    _webViewController = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setNavigationDelegate(
-        NavigationDelegate(
-          onNavigationRequest: (NavigationRequest request) {
-            return NavigationDecision.navigate;
-          },
-        ),
-      );
   }
 
   Future<void> fetchRssFeed() async {
@@ -578,38 +567,10 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  void _openLiveScoresWebView(String url) {
-    _webViewController.loadRequest(Uri.parse(url));
+  void _openWebView(String url, String title) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => Scaffold(
-          appBar: AppBar(
-            title: Text('Live Scores'),
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-          ),
-          body: WebViewWidget(controller: _webViewController),
-        ),
-      ),
-    );
-  }
-
-  void _openWebView(String url) {
-    _webViewController.loadRequest(Uri.parse(url));
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => Scaffold(
-          appBar: AppBar(
-            title: Text('News'),
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-          ),
-          body: WebViewWidget(controller: _webViewController),
-        ),
+        builder: (context) => WebViewScreen(url: url, title: title),
       ),
     );
   }
@@ -638,28 +599,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Padding(
-                    //   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-                    //   child: Row(
-                    //     children: [
-                    //       Text(
-                    //         'Welcome, ',
-                    //         style: const TextStyle(
-                    //           fontSize: 12,
-                    //           color: Colors.black,
-                    //         ),
-                    //       ),
-                    //       Text(
-                    //         '${user?.displayName ?? "Guest User"}',
-                    //         style: const TextStyle(
-                    //           fontSize: 14,
-                    //           color: Colors.black,
-                    //           fontWeight: FontWeight.bold,
-                    //         ),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
+                    SizedBox(height: 20,),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
                       child: Text(
@@ -668,11 +608,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     SpeedBoxes(),
-                    Column(
-                      children: [
-                        LiveScoresWidget(),
-                      ],
-                    ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
                       child: Text(
@@ -706,7 +641,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             : 'https://via.placeholder.com/300x200?text=No+Image';
 
                         return GestureDetector(
-                          onTap: () => _openWebView(item['link'] ?? ''),
+                          onTap: () => _openWebView(item['link'] ?? '', 'News'),
                           child: Card(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15.0),
@@ -770,6 +705,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         );
                       },
                     ),
+                    Column(
+                      children: [
+                        LiveScoresWidget(
+                          onTap: (url) => _openWebView(url, 'Live Scores'),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
@@ -779,6 +721,31 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       bottomNavigationBar: CustomBottomNavigationBar(selectedIndex: selectedIndex),
       floatingActionButton: FloatingActionAnimation(),
+    );
+  }
+}
+
+class WebViewScreen extends StatelessWidget {
+  final String url;
+  final String title;
+
+  WebViewScreen({required this.url, required this.title});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(title),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+      ),
+      body: WebViewWidget(
+        controller: WebViewController()
+          ..setJavaScriptMode(JavaScriptMode.unrestricted)
+          ..loadRequest(Uri.parse(url)),
+      ),
     );
   }
 }

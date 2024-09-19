@@ -522,14 +522,14 @@ class SpeedBoxes extends StatelessWidget {
             label,
             style: const TextStyle(
               color: Colors.white,
-              fontSize: 15,
+              fontSize: 16,
             ),
           ),
           const SizedBox(height: 20),
           Text(
               "${speed.toStringAsFixed(1)} KPH",
-              style: TextStyle(color: Color(0xffcf2e2e),
-                fontSize: 20, fontFamily: 'LED')
+              style: TextStyle(color: Color(0xffd32e2e),
+                fontSize: 25, fontFamily: 'LED')
           ),
         ],
       ),
