@@ -88,35 +88,53 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  bool _isFirstTime = true;
+  bool? _isFirstTime; // Set to nullable to handle uninitialized state
 
   @override
   void initState() {
     super.initState();
-    _checkFirstTime();
-    _navigateToNextScreen();
+    _initApp(); // Initialize app state and navigation logic
+  }
+
+  Future<void> _initApp() async {
+    await _checkFirstTime();
+    await Future.delayed(const Duration(seconds: 3)); // Adding delay for splash screen effect
+
+    // Navigate based on the first-time check result
+    if (_isFirstTime != null) {
+      _navigateToNextScreen();
+    }
   }
 
   Future<void> _checkFirstTime() async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      _isFirstTime = prefs.getBool('first_time') ?? true;
+      bool isFirstTime = prefs.getBool('first_time') ?? true; // Default to true
 
-      if (_isFirstTime) {
-        await prefs.setBool('first_time', false);
+      if (isFirstTime) {
+        await prefs.setBool('first_time', false); // Set flag to indicate first-time use is over
       }
+
+      // Safely update the state
+      setState(() {
+        _isFirstTime = isFirstTime;
+      });
     } catch (e) {
       print("Error accessing SharedPreferences: $e");
+      // If error occurs, assume it's not the first time and proceed
+      setState(() {
+        _isFirstTime = false;
+      });
     }
   }
 
-  Future<void> _navigateToNextScreen() async {
-    await Future.delayed(const Duration(seconds: 3));
-
+  void _navigateToNextScreen() {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => _isFirstTime ? const WelcomeScreen() : HomeScreen(),
+        builder: (context) => _isFirstTime == true
+            ? const WelcomeScreen() // Navigate to WelcomeScreen if first-time
+            : HomeScreen(), // Otherwise navigate to HomeScreen
       ),
     );
   }
@@ -139,6 +157,11 @@ class _SplashScreenState extends State<SplashScreen> {
               style: TextStyle(fontSize: 30),
             ),
             const Text("App for Cricketers"),
+            if (_isFirstTime == null) // Show loading indicator while checking first-time status
+              const Padding(
+                padding: EdgeInsets.only(top: 20),
+                child: CircularProgressIndicator(),
+              ),
           ],
         ),
       ),

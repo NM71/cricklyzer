@@ -1,3 +1,4 @@
+// With Animations
 import 'package:cricklyzer/screens/cric_coverage.dart';
 import 'package:cricklyzer/Screens/learning_hub.dart';
 import 'package:cricklyzer/Screens/home_screen.dart';
@@ -39,37 +40,148 @@ class CustomBottomNavigationBar extends StatelessWidget {
         ),
       ],
       onTap: (index) {
+        Widget nextScreen;
         switch (index) {
           case 0:
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => HomeScreen()),
-            );
+            nextScreen = HomeScreen();
             break;
           case 1:
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const CricketCoverage()),
-            );
+            nextScreen = const CricketCoverage();
             break;
           case 2:
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const StatisticsScreen()),
-            );
+            nextScreen = const StatisticsScreen();
             break;
           case 3:
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const LearningHub()),
-            );
+            nextScreen = const LearningHub();
             break;
+          default:
+            nextScreen = HomeScreen();
         }
+
+        Navigator.pushReplacement(
+          context,
+          PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) => nextScreen,
+            transitionsBuilder: (context, animation, secondaryAnimation, child) {
+              const begin = Offset(1.0, 0.0); // Slide from right
+              const end = Offset.zero;
+              const curve = Curves.easeInOut;
+
+              var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+              var offsetAnimation = animation.drive(tween);
+
+              // return SlideTransition(
+              //   position: offsetAnimation,
+              //   child: child,
+              // );
+
+              return FadeTransition(
+                opacity: animation,
+                child: child,
+              );
+
+            //   return ScaleTransition(
+              //   scale: animation,
+              //   child: child,
+              // );
+            },
+          ),
+        );
       },
     );
   }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import 'package:cricklyzer/screens/cric_coverage.dart';
+// import 'package:cricklyzer/Screens/learning_hub.dart';
+// import 'package:cricklyzer/Screens/home_screen.dart';
+// import 'package:cricklyzer/Screens/statistics_screen.dart';
+// import 'package:flutter/material.dart';
+//
+// class CustomBottomNavigationBar extends StatelessWidget {
+//   final int selectedIndex;
+//   const CustomBottomNavigationBar({Key? key, required this.selectedIndex}) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return BottomNavigationBar(
+//       type: BottomNavigationBarType.fixed,
+//       backgroundColor: Colors.white,
+//       selectedItemColor: const Color(0xffcf2e2e),
+//       unselectedItemColor: Colors.grey,
+//       currentIndex: selectedIndex,
+//       items: const [
+//         BottomNavigationBarItem(
+//           icon: Icon(Icons.home_outlined),
+//           activeIcon: Icon(Icons.home),
+//           label: 'Home',
+//         ),
+//         BottomNavigationBarItem(
+//           icon: Icon(Icons.local_convenience_store_outlined),
+//           activeIcon: Icon(Icons.scoreboard),
+//           label: 'Coverage',
+//         ),
+//         BottomNavigationBarItem(
+//           icon: Icon(Icons.insert_chart_outlined),
+//           activeIcon: Icon(Icons.insert_chart),
+//           label: 'Stats',
+//         ),
+//         BottomNavigationBarItem(
+//           icon: Icon(Icons.sports_cricket_outlined),
+//           activeIcon: Icon(Icons.sports_cricket),
+//           label: 'Learn Hub',
+//         ),
+//       ],
+//       onTap: (index) {
+//         switch (index) {
+//           case 0:
+//             Navigator.pushReplacement(
+//               context,
+//               MaterialPageRoute(builder: (context) => HomeScreen()),
+//             );
+//             break;
+//           case 1:
+//             Navigator.pushReplacement(
+//               context,
+//               MaterialPageRoute(builder: (context) => const CricketCoverage()),
+//             );
+//             break;
+//           case 2:
+//             Navigator.pushReplacement(
+//               context,
+//               MaterialPageRoute(builder: (context) => const StatisticsScreen()),
+//             );
+//             break;
+//           case 3:
+//             Navigator.pushReplacement(
+//               context,
+//               MaterialPageRoute(builder: (context) => const LearningHub()),
+//             );
+//             break;
+//         }
+//       },
+//     );
+//   }
+// }
+//
 
 
 

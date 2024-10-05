@@ -1,6 +1,9 @@
 import 'package:cricklyzer/Screens/welcome_screen.dart';
+import 'package:cricklyzer/themes/theme_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class UserProfileBottomSheet extends StatelessWidget {
   const UserProfileBottomSheet({Key? key}) : super(key: key);
@@ -21,7 +24,7 @@ class UserProfileBottomSheet extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(
+          const Text(
             'User Profile',
             style: TextStyle(
               fontSize: 25,
@@ -29,7 +32,7 @@ class UserProfileBottomSheet extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 30,),
+          const SizedBox(height: 30,),
           CircleAvatar(
             radius: 50,
             backgroundImage: user?.photoURL != null
@@ -39,16 +42,38 @@ class UserProfileBottomSheet extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           Text(user?.displayName ?? "Guest User",
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 18,
                 color: Colors.black,
                 fontWeight: FontWeight.bold,
               )),
-          const SizedBox(height: 40),
-          Center(child: Text('Made with ❤️ for Cricketers')),
-          const SizedBox(height: 40),
+          const SizedBox(height: 10),
+          Container(
+            padding: const EdgeInsets.all(12),
+            margin: const EdgeInsets.all(25),
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.secondary,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // Dark mode
+                const Text('Dark Mode', style: TextStyle(fontWeight: FontWeight.bold),),
+
+                // Switch
+                CupertinoSwitch(
+                  value: Provider.of<ThemeProvider>(context).isDarkMode,
+                  onChanged: (value) => Provider.of<ThemeProvider>(context, listen: false).toggleTheme(),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 20,),
+          const Center(child: Text('Made with ❤️ for Cricketers')),
+          const SizedBox(height: 25),
           ElevatedButton(
-            style: ButtonStyle(
+            style: const ButtonStyle(
               backgroundColor: WidgetStatePropertyAll<Color>(Color(0xffcf2e2e)),
             ),
             onPressed: () async {
@@ -61,7 +86,7 @@ class UserProfileBottomSheet extends StatelessWidget {
                 ),
               );
             },
-            child: Text(
+            child: const Text(
               "Sign Out",
               style: TextStyle(color: Colors.white),
             ),

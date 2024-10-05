@@ -523,7 +523,7 @@ import 'package:cricklyzer/widgets/appbar.dart';
 import 'package:cricklyzer/widgets/bottom_navigation_bar.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -552,14 +552,16 @@ class _HomeScreenState extends State<HomeScreen> {
             isLoading = false;
           });
         } else {
-          throw Exception('Failed to load RSS feed: ${data['message']}');
+          // throw Exception('Failed to load RSS feed: ${data['message']}');
+          throw Exception('Failed to load RSS feed');
         }
       } else {
         throw Exception('Failed to load RSS feed');
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error loading news: $e')),
+        // SnackBar(content: Text('Error loading news: $e')),
+        const SnackBar(content: Text('Error loading news')),
       );
       setState(() {
         isLoading = false;
@@ -586,7 +588,7 @@ class _HomeScreenState extends State<HomeScreen> {
     User? user = FirebaseAuth.instance.currentUser;
 
     return Scaffold(
-      appBar: CustomAppBar(),
+      appBar: const CustomAppBar(),
       body: Container(
         decoration: const BoxDecoration(
           color: Color(0xffffffff),
@@ -599,17 +601,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 20,),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+                    const SizedBox(height: 20,),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
                       child: Text(
                         'Your Pace Record',
                         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                       ),
                     ),
-                    SpeedBoxes(),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+                    const SpeedBoxes(),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
                       child: Text(
                         'Top News',
                         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
@@ -655,7 +657,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     imageUrl,
                                     fit: BoxFit.cover,
                                     errorBuilder: (context, error, stackTrace) {
-                                      return Center(child: Text('Failed to load image'));
+                                      return const Center(child: Text('Failed to load image'));
                                     },
                                   ),
                                 ),
@@ -719,7 +721,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: CustomBottomNavigationBar(selectedIndex: selectedIndex),
+      bottomNavigationBar: const CustomBottomNavigationBar(selectedIndex: selectedIndex),
       floatingActionButton: FloatingActionAnimation(),
     );
   }
@@ -729,7 +731,7 @@ class WebViewScreen extends StatelessWidget {
   final String url;
   final String title;
 
-  WebViewScreen({required this.url, required this.title});
+  const WebViewScreen({super.key, required this.url, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -737,7 +739,7 @@ class WebViewScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(title),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),

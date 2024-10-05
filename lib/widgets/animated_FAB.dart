@@ -76,6 +76,7 @@
 
 
 
+import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import '../screens/calculate_pace.dart';
@@ -110,34 +111,37 @@ class _FloatingActionAnimationState extends State<FloatingActionAnimation>
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _controller,
-      builder: (context, child) {
-        return FloatingActionButton(
-          backgroundColor: Color(0xffffffff),
-          shape: RoundedRectangleBorder(
-            side: BorderSide(color: Color(0xff000000)),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => CalculatePace()),
-            );
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: Transform.rotate(
-              angle: _rotationAnimation.value,
-              child: Image.asset(
-                'assets/images/Cricklyzer-logo-2-outlined.png',
-                height: 50,
-                width: 50,
+    return AvatarGlow(
+      glowColor: Color(0xffcf2e2e),
+      child: AnimatedBuilder(
+        animation: _controller,
+        builder: (context, child) {
+          return FloatingActionButton(
+            backgroundColor: Color(0xffffffff),
+            shape: RoundedRectangleBorder(
+              side: BorderSide(color: Color(0xff000000)),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CalculatePace()),
+              );
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Transform.rotate(
+                angle: _rotationAnimation.value,
+                child: Image.asset(
+                  'assets/images/Cricklyzer-logo-2-black.png',
+                  height: 50,
+                  width: 50,
+                ),
               ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

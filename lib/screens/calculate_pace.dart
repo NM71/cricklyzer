@@ -528,7 +528,7 @@ class _CalculatePaceState extends State<CalculatePace> {
   void initState() {
     super.initState();
     _controller = VideoPlayerController.asset(
-      'assets/sample.mp4',
+      'assets/sample_video.mp4',
     )
       ..addListener(() {
         setState(() {});
