@@ -2,8 +2,10 @@ import 'package:cricklyzer/Screens/home_screen.dart';
 import 'package:cricklyzer/Screens/statistics_screen.dart';
 import 'package:cricklyzer/firebase_options.dart';
 import 'package:cricklyzer/screens/cricket_news_screen.dart';
+import 'package:cricklyzer/screens/welcome_screen.dart';
 import 'package:cricklyzer/themes/theme_provider.dart';
 import 'package:cricklyzer/widgets/bottom_navigation_bar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -31,8 +33,39 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: 'Outfit'),
-      home: const MainTabController(),
+      home: const AuthWrapper(),
       title: "Cricklyzer",
+    );
+  }
+}
+
+class AuthWrapper extends StatelessWidget {
+  const AuthWrapper({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (context, snapshot) {
+        // Show loading while checking auth state
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(
+                color: Color(0xffcf2e2e),
+              ),
+            ),
+          );
+        }
+
+        // If user is authenticated, show main app
+        if (snapshot.hasData && snapshot.data != null) {
+          return const MainTabController();
+        }
+
+        // If not authenticated, show welcome screen
+        return const WelcomeScreen();
+      },
     );
   }
 }

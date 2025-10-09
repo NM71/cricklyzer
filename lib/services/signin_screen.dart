@@ -109,7 +109,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:cricklyzer/Screens/home_screen.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 class SignInScreen extends StatefulWidget {
@@ -131,12 +130,7 @@ class _SignInScreenState extends State<SignInScreen> {
       setState(() {
         _user = event;
       });
-      if (_user != null) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const HomeScreen()),
-        );
-      }
+      // Navigation is now handled by AuthWrapper in main.dart
     });
   }
 

@@ -143,12 +143,7 @@ class UserProfileBottomSheet extends StatelessWidget {
                     await FirebaseAuth.instance.signOut();
                     if (context.mounted) {
                       Navigator.of(context).pop(); // Close bottom sheet
-                      Navigator.of(context).pushAndRemoveUntil(
-                        MaterialPageRoute(
-                          builder: (context) => const WelcomeScreen(),
-                        ),
-                        (route) => false, // Remove all previous routes
-                      );
+                      // AuthWrapper will automatically show WelcomeScreen when user signs out
                     }
                   } catch (e) {
                     if (context.mounted) {
