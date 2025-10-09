@@ -462,41 +462,6 @@
 //   }
 // }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import 'dart:io';
 import 'package:cricklyzer/widgets/custom_buttons.dart';
 import 'package:flutter/foundation.dart';
@@ -546,7 +511,6 @@ class _CalculatePaceState extends State<CalculatePace> {
       allowFullScreen: false,
       showControls: false,
       zoomAndPan: true,
-
     );
   }
 
@@ -578,8 +542,10 @@ class _CalculatePaceState extends State<CalculatePace> {
         builder: (BuildContext context) {
           return AlertDialog(
             backgroundColor: Colors.black,
-            titleTextStyle: TextStyle(color: Colors.white, fontFamily: 'Symthe', fontSize: 25),
-            contentTextStyle: TextStyle(color: Colors.white, fontFamily: 'Symthe'),
+            titleTextStyle: const TextStyle(
+                color: Colors.white, fontFamily: 'Symthe', fontSize: 25),
+            contentTextStyle:
+                const TextStyle(color: Colors.white, fontFamily: 'Symthe'),
             title: const Text('Ball Pace'),
             content: Text(
                 'The pace of the ball is ${paceInKilometersPerHour.toStringAsFixed(1)} KPH.'),
@@ -601,8 +567,10 @@ class _CalculatePaceState extends State<CalculatePace> {
         builder: (BuildContext context) {
           return AlertDialog(
             backgroundColor: Colors.black,
-            titleTextStyle: TextStyle(color: Colors.white, fontFamily: 'Symthe', fontSize: 25),
-            contentTextStyle: TextStyle(color: Colors.white, fontFamily: 'Symthe'),
+            titleTextStyle: const TextStyle(
+                color: Colors.white, fontFamily: 'Symthe', fontSize: 25),
+            contentTextStyle:
+                const TextStyle(color: Colors.white, fontFamily: 'Symthe'),
             title: const Text('Error'),
             content: const Text(
                 'Invalid release and impact points. Please try again.'),
@@ -627,7 +595,7 @@ class _CalculatePaceState extends State<CalculatePace> {
       try {
         // Get reference to the user's document in Firestore
         var userDocRef =
-        FirebaseFirestore.instance.collection('users').doc(user.uid);
+            FirebaseFirestore.instance.collection('users').doc(user.uid);
 
         // Add pace data to the user's document
         await userDocRef.collection('paces').add({
@@ -652,16 +620,24 @@ class _CalculatePaceState extends State<CalculatePace> {
       builder: (BuildContext context) {
         return AlertDialog(
           backgroundColor: Colors.black,
-          titleTextStyle: TextStyle(color: Colors.white, fontFamily: 'Symthe', fontSize: 25),
-          contentTextStyle: TextStyle(color: Colors.white, fontFamily: 'Symthe'),
+          titleTextStyle: const TextStyle(
+              color: Colors.white, fontFamily: 'Symthe', fontSize: 25),
+          contentTextStyle:
+              const TextStyle(color: Colors.white, fontFamily: 'Symthe'),
           title: Text(title),
-          content: Text('Time: $currentTime', style: TextStyle(fontSize: 25),),
+          content: Text(
+            'Time: $currentTime',
+            style: const TextStyle(fontSize: 25),
+          ),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text('OK', style: TextStyle(color: Colors.white),),
+              child: const Text(
+                'OK',
+                style: TextStyle(color: Colors.white),
+              ),
             ),
           ],
         );
@@ -677,8 +653,10 @@ class _CalculatePaceState extends State<CalculatePace> {
       builder: (BuildContext context) {
         return AlertDialog(
           backgroundColor: Colors.black,
-          titleTextStyle: TextStyle(color: Colors.white, fontFamily: 'Symthe', fontSize: 25),
-          contentTextStyle: TextStyle(color: Colors.white, fontFamily: 'Symthe'),
+          titleTextStyle: const TextStyle(
+              color: Colors.white, fontFamily: 'Symthe', fontSize: 25),
+          contentTextStyle:
+              const TextStyle(color: Colors.white, fontFamily: 'Symthe'),
           title: const Text('Set Pitch Size'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -698,13 +676,19 @@ class _CalculatePaceState extends State<CalculatePace> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text('Cancel', style: TextStyle(color: Colors.white),),
+              child: const Text(
+                'Cancel',
+                style: TextStyle(color: Colors.white),
+              ),
             ),
             TextButton(
               onPressed: () {
                 Navigator.pop(context, pitchSizeController.text);
               },
-              child: const Text('Set', style: TextStyle(color: Colors.white),),
+              child: const Text(
+                'Set',
+                style: TextStyle(color: Colors.white),
+              ),
             ),
           ],
         );
@@ -725,7 +709,8 @@ class _CalculatePaceState extends State<CalculatePace> {
     }
 
     if (status.isGranted) {
-      final pickedFile = await ImagePicker().pickVideo(source: ImageSource.gallery);
+      final pickedFile =
+          await ImagePicker().pickVideo(source: ImageSource.gallery);
       if (pickedFile != null) {
         _controller = VideoPlayerController.file(File(pickedFile.path))
           ..addListener(() {
@@ -753,7 +738,6 @@ class _CalculatePaceState extends State<CalculatePace> {
       );
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -880,7 +864,7 @@ class _CalculatePaceState extends State<CalculatePace> {
               ),
               IconButton(
                 icon:
-                const Icon(Icons.skip_next, color: Colors.white, size: 40),
+                    const Icon(Icons.skip_next, color: Colors.white, size: 40),
                 onPressed: () {
                   setState(() {
                     var skipDuration = const Duration(milliseconds: 20);
@@ -950,9 +934,11 @@ class _CalculatePaceState extends State<CalculatePace> {
           const SizedBox(height: 16),
           ClipRRect(
             borderRadius: BorderRadius.circular(10.0),
-            child: CustomButton(text: 'Calculate Pace', onPressed: (){
-              _calculatePaceAndShowDialog(_releasePoint, _impactPoint);
-            }),
+            child: CustomButton(
+                text: 'Calculate Pace',
+                onPressed: () {
+                  _calculatePaceAndShowDialog(_releasePoint, _impactPoint);
+                }),
           ),
         ],
       ),

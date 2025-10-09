@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class UserProfileBottomSheet extends StatelessWidget {
-  const UserProfileBottomSheet({Key? key}) : super(key: key);
+  const UserProfileBottomSheet({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,9 @@ class UserProfileBottomSheet extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(height: 30,),
+          const SizedBox(
+            height: 30,
+          ),
           CircleAvatar(
             radius: 50,
             backgroundImage: user?.photoURL != null
@@ -59,17 +61,24 @@ class UserProfileBottomSheet extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 // Dark mode
-                const Text('Dark Mode', style: TextStyle(fontWeight: FontWeight.bold),),
+                const Text(
+                  'Dark Mode',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
 
                 // Switch
                 CupertinoSwitch(
                   value: Provider.of<ThemeProvider>(context).isDarkMode,
-                  onChanged: (value) => Provider.of<ThemeProvider>(context, listen: false).toggleTheme(),
+                  onChanged: (value) =>
+                      Provider.of<ThemeProvider>(context, listen: false)
+                          .toggleTheme(),
                 ),
               ],
             ),
           ),
-          const SizedBox(height: 20,),
+          const SizedBox(
+            height: 20,
+          ),
           const Center(child: Text('Made with ❤️ for Cricketers')),
           const SizedBox(height: 25),
           ElevatedButton(

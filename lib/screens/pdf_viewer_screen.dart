@@ -15,16 +15,17 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
   final TextEditingController _searchController = TextEditingController();
   int _totalPages = 0; // To store the total number of pages
   int _currentPage = 0; // To store the current page number
-  PdfTextSearchResult _searchResult = PdfTextSearchResult(); // To store search results
+  PdfTextSearchResult _searchResult =
+      PdfTextSearchResult(); // To store search results
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('ICC Handbook'),
+        title: const Text('ICC Handbook'),
         actions: [
           IconButton(
-            icon: Icon(Icons.search),
+            icon: const Icon(Icons.search),
             onPressed: () {
               _showSearchDialog(context);
             },
@@ -56,14 +57,15 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
             right: 0,
             child: Center(
               child: Container(
-                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                 decoration: BoxDecoration(
                   color: Colors.black.withOpacity(0.6),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Text(
                   'Page $_currentPage of $_totalPages',
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 16,
                   ),
@@ -75,7 +77,7 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
       ),
       bottomNavigationBar: _searchResult.totalInstanceCount > 0
           ? _buildSearchNavigation()
-          : SizedBox.shrink(),
+          : const SizedBox.shrink(),
     );
   }
 
@@ -84,22 +86,26 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text("Search Topic"),
+          title: const Text("Search Topic"),
           content: TextField(
             controller: _searchController,
-            decoration: InputDecoration(
-              hintText: "Enter topic or text to search", // Hinted text for search
+            decoration: const InputDecoration(
+              hintText:
+                  "Enter topic or text to search", // Hinted text for search
             ),
           ),
           actions: [
             TextButton(
-              child: Text("Search"),
+              child: const Text("Search"),
               onPressed: () async {
                 if (_searchController.text.isNotEmpty) {
-                  _searchResult = await _pdfViewerController.searchText(_searchController.text);
+                  _searchResult = await _pdfViewerController
+                      .searchText(_searchController.text);
                   if (_searchResult.totalInstanceCount == 0) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text("No results found for '${_searchController.text}'")),
+                      SnackBar(
+                          content: Text(
+                              "No results found for '${_searchController.text}'")),
                     );
                   } else {
                     Navigator.of(context).pop();
@@ -108,7 +114,7 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
               },
             ),
             TextButton(
-              child: Text("Cancel"),
+              child: const Text("Cancel"),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -125,25 +131,27 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         IconButton(
-          icon: Icon(Icons.navigate_before),
+          icon: const Icon(Icons.navigate_before),
           onPressed: () {
             if (_searchResult.currentInstanceIndex > 1) {
-              _searchResult.previousInstance(); // Navigate to previous search result
+              _searchResult
+                  .previousInstance(); // Navigate to previous search result
             } else {
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text("No previous results")),
+                const SnackBar(content: Text("No previous results")),
               );
             }
           },
         ),
         IconButton(
-          icon: Icon(Icons.navigate_next),
+          icon: const Icon(Icons.navigate_next),
           onPressed: () {
-            if (_searchResult.currentInstanceIndex < _searchResult.totalInstanceCount) {
+            if (_searchResult.currentInstanceIndex <
+                _searchResult.totalInstanceCount) {
               _searchResult.nextInstance(); // Navigate to next search result
             } else {
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text("No more results")),
+                const SnackBar(content: Text("No more results")),
               );
             }
           },
@@ -158,32 +166,36 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text("Go to Page"),
+          title: const Text("Go to Page"),
           content: TextField(
             controller: _pageController,
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
-              hintText: "Enter page number (1-$_totalPages)", // Display the total number of pages as a hint
+              hintText:
+                  "Enter page number (1-$_totalPages)", // Display the total number of pages as a hint
             ),
           ),
           actions: [
             TextButton(
-              child: Text("Go"),
+              child: const Text("Go"),
               onPressed: () {
                 int? page = int.tryParse(_pageController.text);
                 if (page == null || page < 1 || page > _totalPages) {
                   // Handle out-of-range or invalid input
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text("Please enter a valid page number between 1 and $_totalPages.")),
+                    SnackBar(
+                        content: Text(
+                            "Please enter a valid page number between 1 and $_totalPages.")),
                   );
                 } else {
                   _pdfViewerController.jumpToPage(page);
-                  Navigator.of(context).pop(); // Close the dialog after navigating to the page
+                  Navigator.of(context)
+                      .pop(); // Close the dialog after navigating to the page
                 }
               },
             ),
             TextButton(
-              child: Text("Cancel"),
+              child: const Text("Cancel"),
               onPressed: () {
                 Navigator.of(context).pop(); // Close the dialog without action
               },

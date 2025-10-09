@@ -68,22 +68,17 @@
 //   }
 // }
 
-
-
-
-
-
-
-
-
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import '../screens/calculate_pace.dart';
 
 class FloatingActionAnimation extends StatefulWidget {
+  const FloatingActionAnimation({super.key});
+
   @override
-  _FloatingActionAnimationState createState() => _FloatingActionAnimationState();
+  _FloatingActionAnimationState createState() =>
+      _FloatingActionAnimationState();
 }
 
 class _FloatingActionAnimationState extends State<FloatingActionAnimation>
@@ -97,10 +92,11 @@ class _FloatingActionAnimationState extends State<FloatingActionAnimation>
 
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 4),
+      duration: const Duration(seconds: 4),
     )..repeat();
 
-    _rotationAnimation = Tween<double>(begin: 0, end: 2 * math.pi).animate(_controller);
+    _rotationAnimation =
+        Tween<double>(begin: 0, end: 2 * math.pi).animate(_controller);
   }
 
   @override
@@ -112,20 +108,20 @@ class _FloatingActionAnimationState extends State<FloatingActionAnimation>
   @override
   Widget build(BuildContext context) {
     return AvatarGlow(
-      glowColor: Color(0xffcf2e2e),
+      glowColor: const Color(0xffcf2e2e),
       child: AnimatedBuilder(
         animation: _controller,
         builder: (context, child) {
           return FloatingActionButton(
-            backgroundColor: Color(0xffffffff),
+            backgroundColor: const Color(0xffffffff),
             shape: RoundedRectangleBorder(
-              side: BorderSide(color: Color(0xff000000)),
+              side: const BorderSide(color: Color(0xff000000)),
               borderRadius: BorderRadius.circular(10),
             ),
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => CalculatePace()),
+                MaterialPageRoute(builder: (context) => const CalculatePace()),
               );
             },
             child: Padding(

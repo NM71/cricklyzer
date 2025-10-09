@@ -29,7 +29,8 @@ class CardWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             ClipRRect(
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(15.0)),
+              borderRadius:
+                  const BorderRadius.vertical(top: Radius.circular(15.0)),
               child: Image.asset(
                 imagePath,
                 height: height - 50,
@@ -40,8 +41,10 @@ class CardWidget extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 title,
-                style: TextStyle(fontSize: 18,
-                  color: Colors.white,),
+                style: const TextStyle(
+                  fontSize: 18,
+                  color: Colors.white,
+                ),
                 textAlign: TextAlign.center,
               ),
             ),

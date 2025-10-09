@@ -10,11 +10,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-
     User? user = FirebaseAuth.instance.currentUser;
 
     return AppBar(
-      backgroundColor: Color(0xffffffff),
+      backgroundColor: const Color(0xffffffff),
       elevation: 0,
       titleSpacing: 0,
       title: Row(
@@ -29,7 +28,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           const Text(
             textAlign: TextAlign.center,
             'Cricklyzer',
-            style: TextStyle(color: Colors.black, fontSize: 30, fontWeight: FontWeight.bold,),
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 30,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ],
       ),
@@ -42,9 +45,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               radius: 15,
               backgroundImage: user?.photoURL != null
                   ? NetworkImage(user!.photoURL!)
-                  : const AssetImage("assets/images/sample1.jpg") as ImageProvider<Object>?,
+                  : const AssetImage("assets/images/sample1.jpg")
+                      as ImageProvider<Object>?,
             ),
-            onTap: (){
+            onTap: () {
               showModalBottomSheet(
                 context: context,
                 builder: (BuildContext context) {

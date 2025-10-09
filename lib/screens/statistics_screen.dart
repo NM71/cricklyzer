@@ -299,7 +299,6 @@
 //   }
 // }
 
-
 import 'package:cricklyzer/widgets/appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -317,22 +316,22 @@ class StatisticsScreen extends StatelessWidget {
     User? user = FirebaseAuth.instance.currentUser;
 
     return Scaffold(
-      appBar: CustomAppBar(),
+      appBar: const CustomAppBar(),
       bottomNavigationBar:
-      CustomBottomNavigationBar(selectedIndex: _selectedIndex),
+          CustomBottomNavigationBar(selectedIndex: _selectedIndex),
       body: Stack(
         fit: StackFit.expand,
         alignment: AlignmentDirectional.center,
         children: [
           Container(
-            decoration: BoxDecoration(
-              color: Color(0xffffffff),
+            decoration: const BoxDecoration(
+              color: const Color(0xffffffff),
             ),
           ),
-          SingleChildScrollView(
+          const SingleChildScrollView(
             child: Center(
               child: Padding(
-                padding: const EdgeInsets.only(top: 20),
+                padding: EdgeInsets.only(top: 20),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -349,37 +348,33 @@ class StatisticsScreen extends StatelessWidget {
                     //       color: Colors.black,
                     //       fontWeight: FontWeight.bold,
                     //     )),
-                    const SizedBox(
+                    SizedBox(
                       height: 10,
                     ),
-                    Text(
-                        "Your Pace History",
+                    Text("Your Pace History",
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 22,
-                        )
-                    ),
-                    const SizedBox(height: 30),
-                    const SpeedBoxes(),
-                    const SizedBox(height: 30),
-                    const PaceLineChart(),
-                    const SizedBox(height: 20),
+                        )),
+                    SizedBox(height: 30),
+                    SpeedBoxes(),
+                    SizedBox(height: 30),
+                    PaceLineChart(),
+                    SizedBox(height: 20),
                     Padding(
-                      padding: const EdgeInsets.all(18.0),
+                      padding: EdgeInsets.all(18.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Text(
-                              "Recent Deliveries",
+                          Text("Recent Deliveries",
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 22,
-                              )
-                          ),
+                              )),
                         ],
                       ),
                     ),
-                    const TopDeliveries(),
+                    TopDeliveries(),
                   ],
                 ),
               ),
@@ -421,7 +416,7 @@ class PaceLineChart extends StatelessWidget {
                   LineChartBarData(
                     spots: paceData,
                     isCurved: true,
-                    color: Color(0xff000000),
+                    color: const Color(0xff000000),
                     barWidth: 3,
                     isStrokeCapRound: false,
                     dotData: const FlDotData(
@@ -456,7 +451,9 @@ class PaceLineChart extends StatelessWidget {
             ),
           );
         } else {
-          return const CircularProgressIndicator(color: Color(0xffcf2e2e),);
+          return const CircularProgressIndicator(
+            color: Color(0xffcf2e2e),
+          );
         }
       },
     );
@@ -498,12 +495,15 @@ class SpeedBoxes extends StatelessWidget {
           return Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              _buildSpeedBox("Average Speed" , averageSpeed),
+              _buildSpeedBox("Average Speed", averageSpeed),
               _buildSpeedBox("Highest Speed", highestSpeed),
             ],
           );
         } else {
-          return Center(child: const CircularProgressIndicator(color: Color(0xffcf2e2e),));
+          return const Center(
+              child: CircularProgressIndicator(
+            color: Color(0xffcf2e2e),
+          ));
         }
       },
     );
@@ -526,17 +526,14 @@ class SpeedBoxes extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 20),
-          Text(
-              "${speed.toStringAsFixed(1)} KPH",
-              style: TextStyle(color: Color(0xffd32e2e),
-                fontSize: 25, fontFamily: 'LED')
-          ),
+          Text("${speed.toStringAsFixed(1)} KPH",
+              style: const TextStyle(
+                  color: Color(0xffd32e2e), fontSize: 25, fontFamily: 'LED')),
         ],
       ),
     );
   }
 }
-
 
 class TopDeliveries extends StatelessWidget {
   const TopDeliveries({super.key});
@@ -566,7 +563,7 @@ class TopDeliveries extends StatelessWidget {
                 return Dismissible(
                   key: Key(paceDoc.id),
                   background: Container(
-                    color: Color(0xffcf2e2e),
+                    color: const Color(0xffcf2e2e),
                     alignment: Alignment.centerRight,
                     padding: const EdgeInsets.only(right: 20),
                     child: const Icon(
@@ -581,18 +578,28 @@ class TopDeliveries extends StatelessWidget {
                       builder: (context) {
                         return AlertDialog(
                           backgroundColor: Colors.black,
-                          titleTextStyle: TextStyle(color: Colors.white, fontSize: 24),
+                          titleTextStyle: const TextStyle(
+                              color: Colors.white, fontSize: 24),
                           title: const Text("Delete Record"),
-                          contentTextStyle: TextStyle(color: Colors.white,),
-                          content: const Text("Are you sure you want to delete this record?"),
+                          contentTextStyle: const TextStyle(
+                            color: Colors.white,
+                          ),
+                          content: const Text(
+                              "Are you sure you want to delete this record?"),
                           actions: [
                             TextButton(
                               onPressed: () => Navigator.of(context).pop(false),
-                              child: const Text("Cancel", style: TextStyle(color: Colors.white),),
+                              child: const Text(
+                                "Cancel",
+                                style: TextStyle(color: Colors.white),
+                              ),
                             ),
                             TextButton(
                               onPressed: () => Navigator.of(context).pop(true),
-                              child: const Text("Delete", style: TextStyle(color: Colors.white),),
+                              child: const Text(
+                                "Delete",
+                                style: TextStyle(color: Colors.white),
+                              ),
                             ),
                           ],
                         );
@@ -608,8 +615,8 @@ class TopDeliveries extends StatelessWidget {
                         .delete();
 
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: const Text('Record deleted successfully'),
+                      const SnackBar(
+                        content: Text('Record deleted successfully'),
                         backgroundColor: Color(0xffcf2e2e),
                       ),
                     );
@@ -637,7 +644,8 @@ class TopDeliveries extends StatelessWidget {
                           ),
                           const SizedBox(height: 10),
                           Text(
-                            DateFormat('MMM d, y').format(paceData["timestamp"].toDate()),
+                            DateFormat('MMM d, y')
+                                .format(paceData["timestamp"].toDate()),
                             style: const TextStyle(
                               color: Colors.grey,
                               fontSize: 16,
@@ -652,7 +660,9 @@ class TopDeliveries extends StatelessWidget {
             ),
           );
         } else {
-          return const CircularProgressIndicator(color: Color(0xffcf2e2e),);
+          return const CircularProgressIndicator(
+            color: Color(0xffcf2e2e),
+          );
         }
       },
     );

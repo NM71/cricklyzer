@@ -1,4 +1,3 @@
-
 // // import 'package:firebase_core/firebase_core.dart';
 // import 'package:flutter/material.dart';
 // import 'package:cricklyzer/Screens/home_screen.dart';
@@ -107,7 +106,6 @@
 //   }
 // }
 
-
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -136,7 +134,7 @@ class _SignInScreenState extends State<SignInScreen> {
       if (_user != null) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => HomeScreen()),
+          MaterialPageRoute(builder: (context) => const HomeScreen()),
         );
       }
     });
@@ -152,7 +150,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
   Widget _googleSignInButton() {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         image: DecorationImage(
           image: AssetImage("assets/images/signin_bg-transformed.jpeg"),
           fit: BoxFit.cover,
@@ -218,10 +216,11 @@ class _SignInScreenState extends State<SignInScreen> {
         GoogleAuthProvider googleAuthProvider = GoogleAuthProvider();
         await FirebaseAuth.instance.signInWithPopup(googleAuthProvider);
       } else {
-        final GoogleSignInAccount? googleSignInAccount = await _googleSignIn.signIn();
+        final GoogleSignInAccount? googleSignInAccount =
+            await _googleSignIn.signIn();
         if (googleSignInAccount != null) {
           final GoogleSignInAuthentication googleSignInAuthentication =
-          await googleSignInAccount.authentication;
+              await googleSignInAccount.authentication;
           final AuthCredential credential = GoogleAuthProvider.credential(
             accessToken: googleSignInAuthentication.accessToken,
             idToken: googleSignInAuthentication.idToken,

@@ -8,14 +8,14 @@ class BattingTips extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: Text('Improve Your Batting'),
+        title: const Text('Improve Your Batting'),
         centerTitle: true,
       ),
       // drawer: buildDrawer(context),
       body: ListView(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         children: [
-          Text(
+          const Text(
             'How to Improve Your Batting in Cricket',
             style: TextStyle(
               fontSize: 24,
@@ -23,33 +23,37 @@ class BattingTips extends StatelessWidget {
             ),
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: 15),
-          Text(
+          const SizedBox(height: 15),
+          const Text(
             'Batting is one of the central aspects of the sport of cricket. It may look simple, but becoming a competent batsman requires lots of hard work. Take some time to really dial in your stance, grip, and swing, along with other basic cues.',
             style: TextStyle(
               fontSize: 12,
             ),
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           buildTipSection(
             title: 'Method 1. Getting into Position',
-            content: 'Take a firm grip on the bat with both hands. Assume a comfortable stance '
+            content:
+                'Take a firm grip on the bat with both hands. Assume a comfortable stance '
                 'and be ready to adjust during games. Hold the bat at waist height until it’s time to swing.',
           ),
           buildTipSection(
             title: '2. Delivering a Proper Swing',
-            content: 'As the bowler delivers the ball, begin lifting the bat. Swing straight to meet the ball '
+            content:
+                'As the bowler delivers the ball, begin lifting the bat. Swing straight to meet the ball '
                 'and follow through for more distance.',
           ),
           buildTipSection(
             title: '3. Hitting with More Success',
-            content: 'Study the bowler for clues and keep your eye on the ball. '
+            content:
+                'Study the bowler for clues and keep your eye on the ball. '
                 'Wait for the perfect moment to swing and maximize your scoring potential.',
           ),
           buildTipSection(
             title: '4. Stepping up Your Game',
-            content: 'Practice regularly to improve your skills. Focus on both technique and fitness, '
+            content:
+                'Practice regularly to improve your skills. Focus on both technique and fitness, '
                 'and refine your strengths to perform under pressure.',
           ),
         ],
@@ -63,19 +67,19 @@ class BattingTips extends StatelessWidget {
       children: [
         Text(
           title,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
         ),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         Text(
           content,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 16,
           ),
         ),
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
       ],
     );
   }

@@ -115,22 +115,6 @@
 //   }
 // }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:xml/xml.dart' as xml;
@@ -138,7 +122,7 @@ import 'package:xml/xml.dart' as xml;
 class LiveScoresWidget extends StatefulWidget {
   final Function(String) onTap;
 
-  const LiveScoresWidget({Key? key, required this.onTap}) : super(key: key);
+  const LiveScoresWidget({super.key, required this.onTap});
 
   @override
   _LiveScoresWidgetState createState() => _LiveScoresWidgetState();
@@ -156,7 +140,8 @@ class _LiveScoresWidgetState extends State<LiveScoresWidget> {
 
   Future<void> fetchLiveScores() async {
     try {
-      final response = await http.get(Uri.parse('https://www.espncricinfo.com/rss/livescores.xml'));
+      final response = await http
+          .get(Uri.parse('https://www.espncricinfo.com/rss/livescores.xml'));
       if (response.statusCode == 200) {
         final document = xml.XmlDocument.parse(response.body);
         final items = document.findAllElements('item');
@@ -189,73 +174,60 @@ class _LiveScoresWidgetState extends State<LiveScoresWidget> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
           child: Text(
             'Live Scores',
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
           ),
         ),
         isLoading
-            ? Center(child: CircularProgressIndicator(color: Color(0xffcf2e2e)))
+            ? const Center(
+                child: CircularProgressIndicator(color: Color(0xffcf2e2e)))
             : Container(
-          height: 120,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: liveScores.length,
-            itemBuilder: (context, index) {
-              final score = liveScores[index];
-              return GestureDetector(
-                onTap: () => widget.onTap(score['link'] ?? ''),
-                child: Card(
-                  color: Color(0xffffffff),
-                  margin: EdgeInsets.symmetric(horizontal: 8),
-                  child: Container(
-                    width: 250,
-                    padding: EdgeInsets.all(8),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          score['title'] ?? '',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
+                height: 120,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: liveScores.length,
+                  itemBuilder: (context, index) {
+                    final score = liveScores[index];
+                    return GestureDetector(
+                      onTap: () => widget.onTap(score['link'] ?? ''),
+                      child: Card(
+                        color: const Color(0xffffffff),
+                        margin: const EdgeInsets.symmetric(horizontal: 8),
+                        child: Container(
+                          width: 250,
+                          padding: const EdgeInsets.all(8),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                score['title'] ?? '',
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 5),
+                              Text(
+                                score['description'] ?? '',
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(fontSize: 14),
+                              ),
+                            ],
                           ),
                         ),
-                        SizedBox(height: 5),
-                        Text(
-                          score['description'] ?? '',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 14),
-                        ),
-                      ],
-                    ),
-                  ),
+                      ),
+                    );
+                  },
                 ),
-              );
-            },
-          ),
-        ),
+              ),
       ],
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // import 'package:flutter/material.dart';
 // import 'package:http/http.dart' as http;

@@ -13,9 +13,10 @@ class LearningHub extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffffffff),
-      bottomNavigationBar: CustomBottomNavigationBar(selectedIndex: _selectedIndex),
-      appBar: CustomAppBar(),
+      backgroundColor: const Color(0xffffffff),
+      bottomNavigationBar:
+          CustomBottomNavigationBar(selectedIndex: _selectedIndex),
+      appBar: const CustomAppBar(),
       body: Center(
         child: SingleChildScrollView(
           child: Padding(
@@ -25,26 +26,31 @@ class LearningHub extends StatelessWidget {
               children: [
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => PdfViewerScreen()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const PdfViewerScreen()));
                   },
                   child: CardWidget(
                     title: 'ICC Playing Handbook 2019-20',
                     imagePath: 'assets/ICC PHB.png',
-                    width: MediaQuery.sizeOf(context).width*0.8,
-                    height: MediaQuery.sizeOf(context).height*0.5,
+                    width: MediaQuery.sizeOf(context).width * 0.8,
+                    height: MediaQuery.sizeOf(context).height * 0.5,
                   ),
                 ),
                 const SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => CricketBasics()));
-
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const CricketBasics()));
                   },
                   child: CardWidget(
                     title: 'Basics of Cricket',
                     imagePath: 'assets/images/cricket_learn_image.png',
-                    width: MediaQuery.sizeOf(context).width*0.8,
-                    height: MediaQuery.sizeOf(context).height*0.5,
+                    width: MediaQuery.sizeOf(context).width * 0.8,
+                    height: MediaQuery.sizeOf(context).height * 0.5,
                   ),
                 ),
               ],
@@ -55,4 +61,3 @@ class LearningHub extends StatelessWidget {
     );
   }
 }
-

@@ -41,7 +41,7 @@ dependencies:
   pdf: ^3.11.1
   path_provider: ^2.1.4
   provider: ^6.1.2
-  device_preview: ^1.2.0
+  # device_preview: ^1.2.0
   avatar_glow: ^3.0.1
 
 

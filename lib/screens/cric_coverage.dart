@@ -11,9 +11,9 @@ class CricketCoverage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffffffff),
-      appBar: CustomAppBar(),
-      bottomNavigationBar: CustomBottomNavigationBar(
+      backgroundColor: const Color(0xffffffff),
+      appBar: const CustomAppBar(),
+      bottomNavigationBar: const CustomBottomNavigationBar(
         selectedIndex: 1,
       ),
       body: Center(
@@ -26,12 +26,12 @@ class CricketCoverage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => CricScore(),
+                    builder: (context) => const CricScore(),
                   ),
                 );
               },
             ),
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
             CustomButton(
               text: 'Cricket News',
               onPressed: () {
