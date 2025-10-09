@@ -305,11 +305,11 @@ import 'package:intl/intl.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cricklyzer/widgets/bottom_navigation_bar.dart';
+import 'package:cricklyzer/widgets/shimmer_widgets.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 class StatisticsScreen extends StatelessWidget {
   const StatisticsScreen({super.key});
-  final _selectedIndex = 2;
 
   @override
   Widget build(BuildContext context) {
@@ -317,70 +317,51 @@ class StatisticsScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: const CustomAppBar(),
-      bottomNavigationBar:
-          CustomBottomNavigationBar(selectedIndex: _selectedIndex),
-      body: Stack(
-        fit: StackFit.expand,
-        alignment: AlignmentDirectional.center,
-        children: [
-          Container(
-            decoration: const BoxDecoration(
-              color: const Color(0xffffffff),
-            ),
-          ),
-          const SingleChildScrollView(
-            child: Center(
-              child: Padding(
-                padding: EdgeInsets.only(top: 20),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    // CircleAvatar(
-                    //   radius: 50,
-                    //   backgroundImage: user?.photoURL != null
-                    //       ? NetworkImage(user!.photoURL!)
-                    //       : const AssetImage("assets/images/sample1.jpg") as ImageProvider<Object>?,
-                    // ),
-                    // const SizedBox(height: 10),
-                    // Text(user?.displayName ?? "Guest User",
-                    //     style: TextStyle(
-                    //       fontSize: 18,
-                    //       color: Colors.black,
-                    //       fontWeight: FontWeight.bold,
-                    //     )),
-                    SizedBox(
-                      height: 10,
+      body: Container(
+        decoration: const BoxDecoration(
+          color: const Color(0xffffffff),
+        ),
+        child: SingleChildScrollView(
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const Text("Your Pace History",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 22,
+                      )),
+                  const SizedBox(height: 30),
+                  const SpeedBoxes(),
+                  const SizedBox(height: 30),
+                  const PaceLineChart(),
+                  const SizedBox(height: 20),
+                  const Padding(
+                    padding: EdgeInsets.all(18.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text("Recent Deliveries",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 22,
+                            )),
+                      ],
                     ),
-                    Text("Your Pace History",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 22,
-                        )),
-                    SizedBox(height: 30),
-                    SpeedBoxes(),
-                    SizedBox(height: 30),
-                    PaceLineChart(),
-                    SizedBox(height: 20),
-                    Padding(
-                      padding: EdgeInsets.all(18.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text("Recent Deliveries",
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 22,
-                              )),
-                        ],
-                      ),
-                    ),
-                    TopDeliveries(),
-                  ],
-                ),
+                  ),
+                  const TopDeliveries(),
+                  const SizedBox(
+                      height: 120), // Extra space for floating nav bar
+                ],
               ),
             ),
           ),
-        ],
+        ),
       ),
     );
   }
@@ -451,9 +432,7 @@ class PaceLineChart extends StatelessWidget {
             ),
           );
         } else {
-          return const CircularProgressIndicator(
-            color: Color(0xffcf2e2e),
-          );
+          return const PaceChartShimmer();
         }
       },
     );
@@ -500,10 +479,7 @@ class SpeedBoxes extends StatelessWidget {
             ],
           );
         } else {
-          return const Center(
-              child: CircularProgressIndicator(
-            color: Color(0xffcf2e2e),
-          ));
+          return const SpeedBoxesShimmer();
         }
       },
     );
@@ -660,9 +636,7 @@ class TopDeliveries extends StatelessWidget {
             ),
           );
         } else {
-          return const CircularProgressIndicator(
-            color: Color(0xffcf2e2e),
-          );
+          return const DeliveryListShimmer();
         }
       },
     );

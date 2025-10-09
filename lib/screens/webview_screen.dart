@@ -4,7 +4,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 class WebViewScreen extends StatefulWidget {
   final String url;
 
-  WebViewScreen({required this.url});
+  const WebViewScreen({super.key, required this.url});
 
   @override
   _WebViewScreenState createState() => _WebViewScreenState();
@@ -35,7 +35,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
         title: Text('RSS Feed'),
         actions: [
           IconButton(
-            icon: Icon(Icons.refresh),
+            icon: const Icon(Icons.refresh),
             onPressed: () {
               _controller.reload();
             },

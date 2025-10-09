@@ -1,93 +1,144 @@
-// With Animations
-import 'package:cricklyzer/screens/cric_coverage.dart';
-import 'package:cricklyzer/Screens/learning_hub.dart';
-import 'package:cricklyzer/Screens/home_screen.dart';
-import 'package:cricklyzer/Screens/statistics_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:cricklyzer/screens/calculate_pace.dart';
 
-class CustomBottomNavigationBar extends StatelessWidget {
+class CustomBottomNavigationBar extends StatefulWidget {
   final int selectedIndex;
-  const CustomBottomNavigationBar({Key? key, required this.selectedIndex}) : super(key: key);
+  final Function(int) onTabChange;
+
+  const CustomBottomNavigationBar({
+    Key? key,
+    required this.selectedIndex,
+    required this.onTabChange,
+  }) : super(key: key);
+
+  @override
+  State<CustomBottomNavigationBar> createState() =>
+      _CustomBottomNavigationBarState();
+}
+
+class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _rotationController;
+
+  @override
+  void initState() {
+    super.initState();
+    _rotationController = AnimationController(
+      duration: const Duration(seconds: 4), // Slow rotation for elegance
+      vsync: this,
+    )..repeat(); // Continuous rotation
+  }
+
+  @override
+  void dispose() {
+    _rotationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      type: BottomNavigationBarType.fixed,
-      backgroundColor: Colors.white,
-      selectedItemColor: const Color(0xffcf2e2e),
-      unselectedItemColor: Colors.grey,
-      currentIndex: selectedIndex,
-      items: const [
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home_outlined),
-          activeIcon: Icon(Icons.home),
-          label: 'Home',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.local_convenience_store_outlined),
-          activeIcon: Icon(Icons.scoreboard),
-          label: 'Coverage',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.insert_chart_outlined),
-          activeIcon: Icon(Icons.insert_chart),
-          label: 'Stats',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.sports_cricket_outlined),
-          activeIcon: Icon(Icons.sports_cricket),
-          label: 'Learn Hub',
-        ),
-      ],
-      onTap: (index) {
-        Widget nextScreen;
-        switch (index) {
-          case 0:
-            nextScreen = HomeScreen();
-            break;
-          case 1:
-            nextScreen = const CricketCoverage();
-            break;
-          case 2:
-            nextScreen = const StatisticsScreen();
-            break;
-          case 3:
-            nextScreen = const LearningHub();
-            break;
-          default:
-            nextScreen = HomeScreen();
-        }
-
-        Navigator.pushReplacement(
-          context,
-          PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) => nextScreen,
-            transitionsBuilder: (context, animation, secondaryAnimation, child) {
-              const begin = Offset(1.0, 0.0); // Slide from right
-              const end = Offset.zero;
-              const curve = Curves.easeInOut;
-
-              var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-              var offsetAnimation = animation.drive(tween);
-
-              // return SlideTransition(
-              //   position: offsetAnimation,
-              //   child: child,
-              // );
-
-              return FadeTransition(
-                opacity: animation,
-                child: child,
-              );
-
-            //   return ScaleTransition(
-              //   scale: animation,
-              //   child: child,
-              // );
-            },
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      height: 80, // Increased height to fully accommodate center button
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(25),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
           ),
-        );
-      },
+        ],
+      ),
+      child: Stack(
+        clipBehavior: Clip.none, // Allow content to overflow
+        children: [
+          // Bottom Navigation Bar with transparent background
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
+            top: 20, // Leave space for center button
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(25),
+              child: BottomNavigationBar(
+                type: BottomNavigationBarType.fixed,
+                backgroundColor: Colors.transparent,
+                selectedItemColor: const Color(0xffcf2e2e),
+                unselectedItemColor: Colors.grey,
+                currentIndex: widget.selectedIndex,
+                elevation: 0,
+                items: const [
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.home_outlined),
+                    activeIcon: Icon(Icons.home),
+                    label: 'Home',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.insert_chart_outlined),
+                    activeIcon: Icon(Icons.insert_chart),
+                    label: 'Stats',
+                  ),
+                ],
+                onTap: widget.onTabChange,
+              ),
+            ),
+          ),
+          // Center Logo Button
+          Positioned(
+            left: 0,
+            right: 0,
+            top: -5, // Position to show completely above nav bar
+            child: Center(
+              child: Container(
+                width: 60,
+                height: 60,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white,
+                  border: Border.all(
+                    color: const Color(0xffcf2e2e),
+                    width: 2,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      blurRadius: 8,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: ClipOval(
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () {
+                        // Navigate to Calculate Pace screen
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const CalculatePace(),
+                          ),
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: RotationTransition(
+                          turns: _rotationController,
+                          child: Image.asset(
+                            'assets/images/Cricklyzer-logo-2-black.png',
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
