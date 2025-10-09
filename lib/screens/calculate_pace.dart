@@ -468,10 +468,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'package:chewie/chewie.dart';
-import 'package:permission_handler/permission_handler.dart';
+
 import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cricklyzer/services/permission_service.dart';
 
 class CalculatePace extends StatefulWidget {
   const CalculatePace({super.key});
@@ -703,12 +704,19 @@ class _CalculatePaceState extends State<CalculatePace> {
   }
 
   Future<void> _importVideo() async {
-    var status = await Permission.storage.status;
-    if (!status.isGranted && !status.isPermanentlyDenied) {
-      status = await Permission.storage.request();
-    }
+    try {
+      // Request storage permission first
+      bool hasPermission = await PermissionService.requestStoragePermission();
 
-    if (status.isGranted) {
+      if (!hasPermission) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Storage permission is required to import videos'),
+          ),
+        );
+        return;
+      }
+
       final pickedFile =
           await ImagePicker().pickVideo(source: ImageSource.gallery);
       if (pickedFile != null) {
@@ -730,10 +738,10 @@ class _CalculatePaceState extends State<CalculatePace> {
           showControls: false,
         );
       }
-    } else {
+    } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Storage permission is required'),
+        SnackBar(
+          content: Text('Error importing video: $e'),
         ),
       );
     }
